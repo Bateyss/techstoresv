@@ -23,11 +23,16 @@ export class Utils {
         return dialogConfig;
     }
 
-    static async generateSHA256(txt: string): Promise<string>{
-        var encoderr : TextEncoder = new TextEncoder();
+    static async generateSHA256(txt: string): Promise<string> {
+        var encoderr: TextEncoder = new TextEncoder();
         const txtBuffer = encoderr.encode(txt);
-        const hashBuffer = await window.crypto.subtle.digest('SHA-256',txtBuffer);
+        const hashBuffer = await window.crypto.subtle.digest('SHA-256', txtBuffer);
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    static isSha256(txt: string): boolean {
+        const sha256Regex = /^[0-9a-fA-F]{64}$/;
+        return sha256Regex.test(txt);
     }
 }
