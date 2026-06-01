@@ -1,23 +1,26 @@
-import { Injectable } from '@angular/core';
-import { Producto } from '../models/producto';
-import { LoteInventario } from '../models/lote-inventario';
-import { Pedido } from '../models/pedido';
+import { inject, Injectable } from '@angular/core';
 import { DetallePedido } from '../models/detalle-pedido';
+import { LoteInventario } from '../models/lote-inventario';
 import { MovimientoInventario } from '../models/movimiento-inventario';
+import { Pedido } from '../models/pedido';
+import { Producto } from '../models/producto';
 import { Usuario } from '../models/usuario';
 import { Utils } from '../util/utils';
+import { LocalStorageService } from './local-storage-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  private PRODUCTOS_ID: string = 'productoList';
-  private USUARIOS_ID: string = 'usuarioList';
-  private LOTES_INVENTARIO_ID: string = 'loteList';
-  private PEDIDOS_ID: string = 'pedidoList';
-  private DETALLE_PEDIDOS_ID: string = 'detallePedidoList';
-  private MOVIMIENTOS_INVENTARIO_ID: string = 'movimientoInventarioList';
+  readonly PRODUCTOS_ID: string = 'productoList';
+  readonly USUARIOS_ID: string = 'usuarioList';
+  readonly LOTES_INVENTARIO_ID: string = 'loteList';
+  readonly PEDIDOS_ID: string = 'pedidoList';
+  readonly DETALLE_PEDIDOS_ID: string = 'detallePedidoList';
+  readonly MOVIMIENTOS_INVENTARIO_ID: string = 'movimientoInventarioList';
+
+  private localStorageService = inject(LocalStorageService);
 
   constructor() { }
 
@@ -87,13 +90,12 @@ export class DataService {
     }
   }
 
-  getUsuarios(document: Document): Array<Usuario> {
-    var localStorage = document.defaultView?.localStorage;
+  getUsuarios(): Array<Usuario> {
     var usuarioList: Array<Usuario> = [];
 
-    var usuarioListSession = localStorage?.getItem(this.USUARIOS_ID);
+    var usuarioListSession = this.localStorageService.getItem<Array<Usuario>>(this.USUARIOS_ID);
     if (usuarioListSession) {
-      usuarioList = JSON.parse(usuarioListSession) as Array<Usuario>;
+      usuarioList = usuarioListSession;
     }
 
     var genericPass = '';
@@ -150,28 +152,16 @@ export class DataService {
       });
     }
 
-    localStorage?.setItem(this.USUARIOS_ID, JSON.stringify(usuarioList));
+    this.localStorageService.setItem(this.USUARIOS_ID, usuarioList);
     return usuarioList;
   }
 
-  getUsuarioAnonimo(): Usuario {
-    return {
-      id: 1,
-      usuario: 'anonim',
-      password: '',
-      nombres: 'anonimo',
-      apellidos: '',
-      fecha_creacion: new Date()
-    }
-  }
-
-  getProductos(document: Document): Array<Producto> {
-    var localStorage = document.defaultView?.localStorage;
+  getProductos(): Array<Producto> {
     var productoList: Array<Producto> = [];
 
-    var productoListSession = localStorage?.getItem(this.PRODUCTOS_ID);
+    var productoListSession = this.localStorageService.getItem<Array<Producto>>(this.PRODUCTOS_ID);
     if (productoListSession) {
-      productoList = JSON.parse(productoListSession) as Array<Producto>;
+      productoList = productoListSession;
     }
 
     if (!productoList || productoList.length == 0) {
@@ -201,21 +191,19 @@ export class DataService {
       });
     }
 
-    localStorage?.setItem(this.PRODUCTOS_ID, JSON.stringify(productoList));
+    this.localStorageService.setItem(this.PRODUCTOS_ID, productoList);
     return productoList;
-
   }
 
-  getLotesInventario(document: Document): Array<LoteInventario> {
-    var localStorage = document.defaultView?.localStorage;
+  getLotesInventario(): Array<LoteInventario> {
     var loteList: Array<LoteInventario> = [];
 
-    var loteListSession = localStorage?.getItem(this.LOTES_INVENTARIO_ID);
+    var loteListSession = this.localStorageService.getItem<Array<LoteInventario>>(this.LOTES_INVENTARIO_ID);
     if (loteListSession) {
-      loteList = JSON.parse(loteListSession) as Array<LoteInventario>;
+      loteList = loteListSession;
     }
 
-    var productos = this.getProductos(document);
+    var productos = this.getProductos();
 
     if (!loteList || loteList.length == 0) {
       loteList.push({
@@ -252,21 +240,19 @@ export class DataService {
       });
     }
 
-    localStorage?.setItem(this.LOTES_INVENTARIO_ID, JSON.stringify(loteList));
+    this.localStorageService.setItem(this.LOTES_INVENTARIO_ID, loteList);
     return loteList;
-
   }
 
-  getPedidos(document: Document): Array<Pedido> {
-    var localStorage = document.defaultView?.localStorage;
+  getPedidos(): Array<Pedido> {
     var pedidoList: Array<Pedido> = [];
 
-    var pedidoListSession = localStorage?.getItem(this.PEDIDOS_ID);
+    var pedidoListSession = this.localStorageService.getItem<Array<Pedido>>(this.PEDIDOS_ID);
     if (pedidoListSession) {
-      pedidoList = JSON.parse(pedidoListSession) as Array<Pedido>;
+      pedidoListSession = pedidoListSession;
     }
 
-    var usuarios = this.getUsuarios(document);
+    var usuarios = this.getUsuarios();
 
     if (!pedidoList || pedidoList.length == 0) {
       pedidoList.push({
@@ -289,21 +275,20 @@ export class DataService {
       });
     }
 
-    localStorage?.setItem(this.PEDIDOS_ID, JSON.stringify(pedidoList));
+    this.localStorageService.setItem(this.PEDIDOS_ID, pedidoList);
     return pedidoList;
   }
 
-  getDetallePedidos(document: Document): Array<DetallePedido> {
-    var localStorage = document.defaultView?.localStorage;
+  getDetallePedidos(): Array<DetallePedido> {
     var detallePedidoList: Array<DetallePedido> = [];
 
-    var detallePedidoListSession = localStorage?.getItem(this.DETALLE_PEDIDOS_ID);
+    var detallePedidoListSession = this.localStorageService.getItem<Array<DetallePedido>>(this.DETALLE_PEDIDOS_ID);
     if (detallePedidoListSession) {
-      detallePedidoList = JSON.parse(detallePedidoListSession) as Array<DetallePedido>;
+      detallePedidoList = detallePedidoListSession;
     }
 
-    var productos = this.getProductos(document);
-    var pedidos = this.getPedidos(document);
+    var productos = this.getProductos();
+    var pedidos = this.getPedidos();
 
     if (!detallePedidoList || detallePedidoList.length == 0) {
       detallePedidoList.push({
@@ -350,22 +335,21 @@ export class DataService {
       });
     }
 
-    localStorage?.setItem(this.DETALLE_PEDIDOS_ID, JSON.stringify(detallePedidoList));
+    this.localStorageService.setItem(this.DETALLE_PEDIDOS_ID, detallePedidoList);
     return detallePedidoList;
   }
 
-  getMovimientosInventario(document: Document): Array<MovimientoInventario> {
-    var localStorage = document.defaultView?.localStorage;
+  getMovimientosInventario(): Array<MovimientoInventario> {
     var movimientoInventarioList: Array<MovimientoInventario> = [];
 
-    var movimientoInventarioListSession = localStorage?.getItem(this.MOVIMIENTOS_INVENTARIO_ID);
+    var movimientoInventarioListSession = this.localStorageService.getItem<Array<MovimientoInventario>>(this.MOVIMIENTOS_INVENTARIO_ID);
     if (movimientoInventarioListSession) {
-      movimientoInventarioList = JSON.parse(movimientoInventarioListSession) as Array<MovimientoInventario>;
+      movimientoInventarioList = movimientoInventarioListSession;
     }
 
-    var productos = this.getProductos(document);
-    var lotes = this.getLotesInventario(document);
-    var pedidos = this.getPedidos(document);
+    var productos = this.getProductos();
+    var lotes = this.getLotesInventario();
+    var pedidos = this.getPedidos();
 
     if (!movimientoInventarioList || movimientoInventarioList.length == 0) {
       movimientoInventarioList.push({
@@ -388,93 +372,88 @@ export class DataService {
       });
     }
 
-    localStorage?.setItem(this.MOVIMIENTOS_INVENTARIO_ID, JSON.stringify(movimientoInventarioList));
+    this.localStorageService.setItem(this.MOVIMIENTOS_INVENTARIO_ID, movimientoInventarioList);
     return movimientoInventarioList;
   }
 
-  pushProducto(document: Document, datos: Producto) {
-    var localStorage = document.defaultView?.localStorage;
-    var productoList: Array<Producto> = this.getProductos(document);
+  pushProducto(datos: Producto) {
+    var productoList: Array<Producto> = this.getProductos();
     datos.id = productoList[productoList.length - 1].id + 1;
     productoList.push(datos);
-    localStorage?.setItem(this.PRODUCTOS_ID, JSON.stringify(productoList));
+    this.localStorageService.setItem(this.PRODUCTOS_ID, productoList);
   }
+  pushLoteInventario(datos: LoteInventario) {
 
-  pushLoteInventario(document: Document, datos: LoteInventario) {
-    var localStorage = document.defaultView?.localStorage;
-    var loteList: Array<LoteInventario> = this.getLotesInventario(document);
+    var loteList: Array<LoteInventario> = this.getLotesInventario();
     datos.id = loteList[loteList.length - 1].id + 1;
     loteList.push(datos);
-    localStorage?.setItem(this.LOTES_INVENTARIO_ID, JSON.stringify(loteList));
+    this.localStorageService.setItem(this.LOTES_INVENTARIO_ID, loteList);
   }
 
-  pushPedido(document: Document, datos: Pedido) {
-    var localStorage = document.defaultView?.localStorage;
-    var pedidoList: Array<Pedido> = this.getPedidos(document);
+  pushPedido(datos: Pedido) {
+    var pedidoList: Array<Pedido> = this.getPedidos();
     datos.id = pedidoList[pedidoList.length - 1].id + 1;
     pedidoList.push(datos);
-    localStorage?.setItem(this.PEDIDOS_ID, JSON.stringify(pedidoList));
+    this.localStorageService.setItem(this.PEDIDOS_ID, pedidoList);
   }
 
-  pushDetallePedido(document: Document, datos: DetallePedido) {
-    var localStorage = document.defaultView?.localStorage;
-    var detallePedidoList: Array<DetallePedido> = this.getDetallePedidos(document);
+  pushDetallePedido(datos: DetallePedido) {
+    var detallePedidoList: Array<DetallePedido> = this.getDetallePedidos();
     datos.id = detallePedidoList[detallePedidoList.length - 1].id + 1;
     detallePedidoList.push(datos);
-    localStorage?.setItem(this.DETALLE_PEDIDOS_ID, JSON.stringify(detallePedidoList));
+    this.localStorageService.setItem(this.DETALLE_PEDIDOS_ID, detallePedidoList);
   }
 
-  pushMovimientoInventario(document: Document, datos: MovimientoInventario) {
-    var localStorage = document.defaultView?.localStorage;
-    var movimientoInventarioList: Array<MovimientoInventario> = this.getMovimientosInventario(document);
+  pushMovimientoInventario(datos: MovimientoInventario) {
+    var movimientoInventarioList: Array<MovimientoInventario> = this.getMovimientosInventario();
     datos.id = movimientoInventarioList[movimientoInventarioList.length - 1].id + 1;
     movimientoInventarioList.push(datos);
-    localStorage?.setItem(this.MOVIMIENTOS_INVENTARIO_ID, JSON.stringify(movimientoInventarioList));
+    this.localStorageService.setItem(this.MOVIMIENTOS_INVENTARIO_ID, movimientoInventarioList);
   }
 
-  editarProducto(document: Document, datos: Producto) {
-    var productoList: Array<Producto> = this.getProductos(document);
-    var productoList2: Array<Producto> = [];
+  editarProducto(datos: Producto) {
+    var productoList: Array<Producto> = this.getProductos();
+    var productoListNueva: Array<Producto> = [];
 
     productoList.forEach(arrData => {
       var newData: Producto = arrData;
       if (newData.id == datos.id) {
         newData = datos;
       }
-      productoList2.push(newData);
+      productoListNueva.push(newData);
     });
 
-    localStorage?.setItem(this.PRODUCTOS_ID, JSON.stringify(productoList2));
+    this.localStorageService.setItem(this.PRODUCTOS_ID, productoListNueva);
   }
 
-  editarLoteInventario(document: Document, datos: LoteInventario) {
-    var loteList: Array<LoteInventario> = this.getLotesInventario(document);
-    var loteList2: Array<LoteInventario> = [];
+  editarLoteInventario(datos: LoteInventario) {
+    var loteList: Array<LoteInventario> = this.getLotesInventario();
+    var loteListNueva: Array<LoteInventario> = [];
 
     loteList.forEach(arrData => {
       var newData: LoteInventario = arrData;
       if (newData.id == datos.id) {
         newData = datos;
       }
-      loteList2.push(newData);
+      loteListNueva.push(newData);
     });
 
-    localStorage?.setItem(this.LOTES_INVENTARIO_ID, JSON.stringify(loteList2));
+    this.localStorageService.setItem(this.LOTES_INVENTARIO_ID, loteListNueva);
   }
 
-  editarDetallePedido(document: Document, datos: DetallePedido) {
-    var detalleList: Array<DetallePedido> = this.getDetallePedidos(document);
-    var detalleList2: Array<DetallePedido> = [];
+  editarDetallePedido(datos: DetallePedido) {
+    var detalleList: Array<DetallePedido> = this.getDetallePedidos();
+    var detalleListNueva: Array<DetallePedido> = [];
 
     detalleList.forEach(arrData => {
       var newData: DetallePedido = arrData;
       if (newData.id == datos.id) {
         newData = datos;
       }
-      detalleList2.push(newData);
+      detalleListNueva.push(newData);
     });
 
-    localStorage?.setItem(this.DETALLE_PEDIDOS_ID, JSON.stringify(detalleList2));
+    this.localStorageService.setItem(this.DETALLE_PEDIDOS_ID, detalleListNueva);
   }
 
 
