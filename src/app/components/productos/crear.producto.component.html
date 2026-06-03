@@ -1,0 +1,66 @@
+<mat-dialog-content>
+    <div>
+        <mat-card>
+            <mat-card-title>
+                Formulario
+                <label *ngIf="!productoSeleccionado || productoSeleccionado.id == 0" class="h4">Agregar
+                    Producto</label>
+                <label *ngIf="productoSeleccionado && productoSeleccionado.id > 0" class="h4">Editar
+                    Producto</label>
+            </mat-card-title>
+            <mat-card-content>
+                <form id="productoForm" [formGroup]="productoForm" (ngSubmit)="guardarProducto()">
+                    <mat-grid-list cols="1">
+
+                        @for (formfield of formConfigs(); track formfield) {
+                        <mat-card-title>
+                            <mat-form-field>
+                                <mat-label>{{formfield.label}}</mat-label>
+                                <ng-container [ngSwitch]="formfield.controlType">
+
+                                    <input *ngSwitchCase="'input'" matInput [type]="formfield.type"
+                                        [formControlName]="formfield.name" [errorStateMatcher]="matcher" required />
+
+                                    <textarea *ngSwitchCase="'textarea'" matInput [formControlName]="formfield.name"
+                                        [errorStateMatcher]="matcher"></textarea>
+
+                                    <mat-select *ngSwitchCase="'select'" [compareWith]="compareIds" required
+                                        [formControlName]="formfield.name" [errorStateMatcher]="matcher">
+                                        <mat-option *ngFor="let opcion of formfield.options; let i = index"
+                                            [value]="opcion.value">{{opcion.name}}</mat-option>
+                                    </mat-select>
+
+                                </ng-container>
+
+                                @if (getFormControl(formfield.name)?.errors) {
+                                <mat-hint>{{formfield.label}}</mat-hint>
+                                }
+
+                                @if (getFormControl(formfield.name)?.errors && formfield.controlType === 'select') {
+                                <mat-error>Seleccione
+                                    {{formfield.label}}</mat-error>
+                                }
+
+                                @if (getFormControl(formfield.name)?.errors && formfield.controlType != 'select') {
+                                <mat-error>Ingrese
+                                    {{formfield.label}}</mat-error>
+                                }
+
+
+                            </mat-form-field>
+                        </mat-card-title>
+                        }
+
+                        <mat-card-title>
+                            <button mat-stroked-button color="primary" type="submit"
+                                *ngIf="!productoSeleccionado || productoSeleccionado.id == 0">Agregar</button>
+                            <button mat-stroked-button color="primary" type="submit"
+                                *ngIf="productoSeleccionado && productoSeleccionado.id > 0">Editar</button>
+                        </mat-card-title>
+
+                    </mat-grid-list>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</mat-dialog-content>
