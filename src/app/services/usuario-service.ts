@@ -57,12 +57,12 @@ export class UsuarioService {
     Utils.generateSHA256(pass).then(b => passEncrypted = b);
     var usuarioList: Array<Usuario> = this.getUsuarios();
 
-    var usuarioSesion = this.dataService.usuarioVacio();
+    var usuarioSesion = DataService.usuarioVacio();
 
     if (usuarioList && usuarioList.length) {
       usuarioList
         .filter(usuario => usuario.usuario == user)
-        .filter(usuario => usuario.password = passEncrypted)
+        .filter(usuario => usuario.password == passEncrypted)
         .forEach(usuario => usuarioSesion = usuario);
     }
 
