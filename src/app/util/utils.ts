@@ -20,6 +20,8 @@ export class Utils {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = false;
         dialogConfig.autoFocus = true;
+        dialogConfig.exitAnimationDuration = '1000ms';
+        dialogConfig.enterAnimationDuration = '1000ms';
         return dialogConfig;
     }
 
