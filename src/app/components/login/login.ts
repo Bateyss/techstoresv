@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Utils } from '../../util/utils';
 import { DataService } from '../../services/data.service';
 import { UsuarioService } from '../../services/usuario-service';
+import { LocalStorageService } from '../../services/local-storage-service';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +21,11 @@ export class Login {
 
   public mensajeLogin = '';
 
-  readonly _snackBar = inject(MatSnackBar);
-  readonly usuarioService = inject(UsuarioService);
+  private _snackBar = inject(MatSnackBar);
+  private usuarioService = inject(UsuarioService);
+  private localStorage = inject(LocalStorageService);
 
-  constructor(@Inject(DOCUMENT) private document: Document,
+  constructor(
     private _router: Router,
     private formBuilder: UntypedFormBuilder) {
     this.loginForm = this.formBuilder.group({
@@ -34,16 +36,17 @@ export class Login {
 
   login() {
     if (this.validarDatos()) {
-      if (this.loginF('username')?.value === 'admin' && this.loginF('password')?.value === '1234') {
+      var usuario = this.usuarioService.validarUsuario(this.loginF('username')?.value, this.loginF('password')?.value);
+      if (usuario && usuario.id > 1) {
         Utils.openSnackBar('Login exitoso', 'ok', this._snackBar);
-        this.document.defaultView?.localStorage?.setItem('usuario', this.loginF('username')?.value);
-        this.document.defaultView?.localStorage?.setItem('logged', 'true');
+        this.localStorage.setItem('usuario', usuario);
+        this.localStorage.setItem('logged', 'true');
         let navigationExtras: NavigationExtras = {
           queryParams: {
             "logged": 'true'
           }
         };
-        this._router.navigate(['/menu/planilla'], navigationExtras);
+        this._router.navigate(['/menu/productos'], navigationExtras);
       } else {
         Utils.openSnackBar('Credenciales incorrectas', 'ok', this._snackBar);
       }
@@ -52,12 +55,25 @@ export class Login {
     }
   }
 
+  iniciarInvitado(){
+    var usuario = this.usuarioService.getUsuarioAnonimo();
+        this.localStorage.setItem('usuario', usuario);
+        this.localStorage.setItem('logged', 'true');
+        let navigationExtras: NavigationExtras = {
+          queryParams: {
+            "logged": 'true'
+          }
+        };
+        this._router.navigate(['/menu/productos'], navigationExtras);
+  }
+
   validarDatos() {
     var valido = this.loginForm.valid;
     if (!this.loginF('username')?.valid) valido = false;
     if (!this.loginF('password')?.valid) valido = false;
     return valido;
   }
+
 
   loginF(control: string) { return this.loginForm.get(control); }
 
