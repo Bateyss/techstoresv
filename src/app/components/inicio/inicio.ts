@@ -8,6 +8,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { NavigationExtras, Router, RouterOutlet } from '@angular/router';
 import { Menu } from '../menu/menu';
 import { MaterialModule } from '../../material/material.module';
+import { LocalStorageService } from '../../services/local-storage-service';
 
 
 @Component({
@@ -22,11 +23,12 @@ export class Inicio {
   isChecked = false;
   public isLightTheme = true;
 
-  readonly dialog = inject(MatDialog);
+  private dialog = inject(MatDialog);
+  private localStorage = inject(LocalStorageService);
 
-  constructor(@Inject(DOCUMENT) private document: Document,
+  constructor(
     private _router: Router) {
-    var logged1 = this.document.defaultView?.localStorage?.getItem('logged');
+    var logged1 = this.localStorage.getItem('logged');
     this.logged = logged1 == 'true' ? true : false;
   }
 
@@ -40,7 +42,7 @@ export class Inicio {
   }
 
   routerActivated(value: any): void {
-    var logged1 = this.document.defaultView?.localStorage?.getItem('logged');
+    var logged1 = this.localStorage.getItem('logged');
     this.logged = logged1 == 'true' ? true : false;
   }
 
@@ -90,7 +92,7 @@ export class Inicio {
         "logged": 'false'
       }
     };
-    this.document.defaultView?.localStorage?.setItem('logged', 'false');
+    this.localStorage.setItem('logged', 'false');
     this._router.navigate(['/menu/login'], navigationExtras);
   }
 
