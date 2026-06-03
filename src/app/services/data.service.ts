@@ -31,28 +31,28 @@ export class DataService {
 
   constructor() { }
 
-  estadoPedidoVacio(): EstadoPedido {
+  public static estadoPedidoVacio(): EstadoPedido {
     return {
       id: 0,
       descripcion: ''
     }
   }
 
-  estadoProductoVacio(): EstadoProducto {
+  public static estadoProductoVacio(): EstadoProducto {
     return {
       id: 0,
       descripcion: ''
     }
   }
 
-  tipoMovimientoVacio(): TipoMovimiento {
+  public static tipoMovimientoVacio(): TipoMovimiento {
     return {
       id: 0,
       descripcion: ''
     }
   }
 
-  usuarioVacio(): Usuario {
+  public static usuarioVacio(): Usuario {
     return {
       id: 0,
       usuario: '',
@@ -63,7 +63,7 @@ export class DataService {
     }
   }
 
-  productoVacio(): Producto {
+  public static productoVacio(): Producto {
     return {
       id: 0,
       sku: '',
@@ -74,7 +74,7 @@ export class DataService {
     }
   }
 
-  loteInventarioVacio(): LoteInventario {
+  public static loteInventarioVacio(): LoteInventario {
     return {
       id: 0,
       producto: this.productoVacio(),
@@ -85,7 +85,7 @@ export class DataService {
     }
   }
 
-  pedidoVacio(): Pedido {
+  public static pedidoVacio(): Pedido {
     return {
       id: 0,
       usuario: this.usuarioVacio(),
@@ -94,7 +94,7 @@ export class DataService {
     }
   }
 
-  detallePedidoVacio(): DetallePedido {
+  public static detallePedidoVacio(): DetallePedido {
     return {
       id: 0,
       pedido: this.pedidoVacio(),
@@ -104,7 +104,7 @@ export class DataService {
     }
   }
 
-  movimientoInventarioVacio(): MovimientoInventario {
+  public static movimientoInventarioVacio(): MovimientoInventario {
     return {
       id: 0,
       // se mantendra producto en redundancia con lote
