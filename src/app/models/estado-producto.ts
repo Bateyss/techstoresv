@@ -1,4 +1,4 @@
 export interface EstadoProducto {
-    id: number,
-    descripcion: string
+    id: number;
+    descripcion: string;
 }

@@ -1,21 +1,16 @@
-import { Component, DOCUMENT, inject, Inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { NavigationExtras, Router, RouterOutlet } from '@angular/router';
-import { Menu } from '../menu/menu';
-import { MaterialModule } from '../../material/material.module';
+import { MaterialToolbarModule } from '../../material/material.module';
 import { LocalStorageService } from '../../services/local-storage-service';
+import { Menu } from '../menu/menu';
 
 
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',
-  imports: [MaterialModule, RouterOutlet],
+  imports: [MaterialToolbarModule, RouterOutlet],
 })
 export class Inicio {
 

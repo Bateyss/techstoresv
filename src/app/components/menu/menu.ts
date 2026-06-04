@@ -1,11 +1,14 @@
-import { Component, Inject, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, DOCUMENT, Inject, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MaterialModule } from '../../material/material.module';
+import { MatIconModule } from '@angular/material/icon';
 import { MenuModel } from '../../models/menu-model';
 
 @Component({
   selector: 'app-menu',
-  imports: [MaterialModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, CommonModule],
   templateUrl: './menu.html',
   styleUrl: './menu.css',
 })
@@ -21,11 +24,13 @@ export class Menu {
   };
   public innerWidths = '0';
 
+  private document =  inject(DOCUMENT);
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {
       idUsuario: number
     }
-  ) { this.innerWidths = (window.innerWidth * 0.9) + 'px'; }
+  ) { this.innerWidths = (this.document.body.clientWidth * 0.9) + 'px'; }
 
   ngOnInit(): void {
     this.cargarMenusDeMantenimientos();

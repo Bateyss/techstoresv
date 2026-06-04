@@ -1,5 +1,5 @@
 export interface SelectOption {
-    id: number,
-    name: string,
-    value: any,
+    id: number;
+    name: string;
+    value: any;
 }

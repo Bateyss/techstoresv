@@ -1,9 +1,10 @@
 <mat-card>
     <mat-card-title>Menu</mat-card-title>
     <mat-card-content [style.width]="'95%'">
-        <div [style.margin]="'1%'" *ngFor="let menu of menusList">
-            <button [style.width]="'95%'" mat-flat-button (click)="redirigirMenu(menu.ruta)">{{menu.nombre}}</button>
-        </div>
+        @for (menu of menusList; track menu) {
+        <button [style.margin]="'1%'" [style.width]="'95%'" mat-flat-button
+            (click)="redirigirMenu(menu.ruta)">{{menu.nombre}}</button>
+        }
     </mat-card-content>
     <mat-card-footer [style.width]="'95%'">
         <button [style.width]="'95%'" mat-stroked-button color="primary" mat-dialog-close>salir</button>

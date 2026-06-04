@@ -1,16 +1,16 @@
-import { Component, DOCUMENT, inject, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { NavigationExtras, Router } from '@angular/router';
-import { MaterialModule } from '../../material/material.module';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Utils } from '../../util/utils';
-import { DataService } from '../../services/data.service';
-import { UsuarioService } from '../../services/usuario-service';
+import { NavigationExtras, Router } from '@angular/router';
+import { MaterialFormModule } from '../../material/material.module';
 import { LocalStorageService } from '../../services/local-storage-service';
+import { UsuarioService } from '../../services/usuario-service';
+import { FormErrorStateMatcher } from '../../util/form-error-state-matcher';
+import { Utils } from '../../util/utils';
 
 @Component({
   selector: 'app-login',
-  imports: [MaterialModule],
+  imports: [MaterialFormModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -24,6 +24,8 @@ export class Login {
   private _snackBar = inject(MatSnackBar);
   private usuarioService = inject(UsuarioService);
   private localStorage = inject(LocalStorageService);
+
+  public matcher = new FormErrorStateMatcher();
 
   constructor(
     private _router: Router,
@@ -55,16 +57,16 @@ export class Login {
     }
   }
 
-  iniciarInvitado(){
+  iniciarInvitado() {
     var usuario = this.usuarioService.getUsuarioAnonimo();
-        this.localStorage.setItem('usuario', usuario);
-        this.localStorage.setItem('logged', 'true');
-        let navigationExtras: NavigationExtras = {
-          queryParams: {
-            "logged": 'true'
-          }
-        };
-        this._router.navigate(['/menu/productos'], navigationExtras);
+    this.localStorage.setItem('usuario', usuario);
+    this.localStorage.setItem('logged', 'true');
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "logged": 'true'
+      }
+    };
+    this._router.navigate(['/menu/productos'], navigationExtras);
   }
 
   validarDatos() {

@@ -3,8 +3,7 @@
         <mat-icon>menu</mat-icon>
     </button>
     <span [style.marginLeft]="'1em'"></span>
-    <span><img (click)="homeClick()" [style.height]="'100%'" [style.maxHeight]="'1.5em'"
-            src="logo2.png"></span>
+    <span><img (click)="homeClick()" [style.height]="'100%'" [style.maxHeight]="'1.5em'" src="logo2.png"></span>
     <span [style.marginLeft]="'1em'"></span>
     <span>TechStoreSV</span>
     <span [style.marginLeft]="'2em'" class="example-spacer"></span>
@@ -17,7 +16,8 @@
                 <mat-icon>account_circle_off</mat-icon>
                 <span>Cerrar Sesion</span>
             </button>
-            <mat-slide-toggle [(ngModel)]="isChecked" (change)="onThemeSwitchChange()">Colores: {{isChecked?'Oscuro':'Claro'}}</mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="isChecked" (change)="onThemeSwitchChange()">Colores:
+                {{isChecked?'Oscuro':'Claro'}}</mat-slide-toggle>
         </mat-menu>
     </span>
 </mat-toolbar>

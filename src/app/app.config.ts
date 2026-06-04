@@ -5,9 +5,15 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { routes } from './app.routes';
 import { DataService } from './services/data.service';
+import { FormService } from './services/form-service';
+import { LocalStorageService } from './services/local-storage-service';
+import { UsuarioService } from './services/usuario-service';
 
 const services = [
-  DataService
+  DataService,
+  FormService,
+  LocalStorageService,
+  UsuarioService
 ]
 
 export const appConfig: ApplicationConfig = {

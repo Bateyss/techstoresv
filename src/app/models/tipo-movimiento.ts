@@ -1,4 +1,4 @@
 export interface TipoMovimiento {
-    id: number,
-    descripcion: string
+    id: number;
+    descripcion: string;
 }

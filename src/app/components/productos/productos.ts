@@ -1,25 +1,26 @@
-import { ChangeDetectionStrategy, Component, Inject, inject, OnInit, signal } from '@angular/core';
+import { Component, DOCUMENT, Inject, inject, OnInit, signal } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MaterialModule } from '../../material/material.module';
+import { MaterialFormDialogModule, MaterialTableModelModule } from '../../material/material.module';
 import { EstadoProducto } from '../../models/estado-producto';
 import { FieldConfig } from '../../models/field-config';
 import { Producto } from '../../models/producto';
 import { DataService } from '../../services/data.service';
 import { FormService } from '../../services/form-service';
-import { Utils } from '../../util/utils';
 import { FormErrorStateMatcher } from '../../util/form-error-state-matcher';
+import { Utils } from '../../util/utils';
 
 @Component({
   selector: 'app-productos',
-  imports: [MaterialModule],
+  imports: [MaterialTableModelModule],
   templateUrl: './productos.html',
   styleUrl: './productos.css',
 })
 export class Productos implements OnInit {
 
   public innerWidths = '0';
+  private document = inject(DOCUMENT);
 
   private dialog = inject(MatDialog);
   private dataService = inject(DataService);
@@ -29,7 +30,7 @@ export class Productos implements OnInit {
   public productosList = signal<Array<Producto>>([]);
 
   constructor() {
-    this.innerWidths = (window.innerWidth * 0.9) + 'px';
+    this.innerWidths = (this.document.body.clientWidth * 0.9) + 'px';
   }
   ngOnInit(): void {
     this.cargarListas();
@@ -66,13 +67,14 @@ export class Productos implements OnInit {
 
 @Component({
   selector: 'dialog-crear',
-  imports: [MaterialModule],
+  imports: [MaterialFormDialogModule],
   templateUrl: './crear.producto.component.html',
   styleUrl: './productos.css'
 })
 export class CrearProductoDialog implements OnInit {
 
   public innerWidths = '0';
+  private document =  inject(DOCUMENT);
 
   private _snackBar = inject(MatSnackBar);
   private dataService = inject(DataService);
@@ -90,7 +92,7 @@ export class CrearProductoDialog implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: {
     productoSeleccionado: Producto
   }) {
-    this.innerWidths = (window.innerWidth * 0.9) + 'px';
+    this.innerWidths = (this.document.body.clientWidth * 0.9) + 'px';
     this.seleccionarProducto(data.productoSeleccionado);
   }
 
