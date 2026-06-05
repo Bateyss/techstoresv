@@ -21,7 +21,7 @@
                         <mat-card-title>
                             <mat-form-field>
                                 <mat-label>{{formfield.label}}</mat-label>
-                                @switch (formfield.label) {
+                                @switch (formfield.controlType) {
                                 @case ('textarea') {
                                 <textarea matInput [formControlName]="formfield.name"
                                     [errorStateMatcher]="matcher"></textarea>
