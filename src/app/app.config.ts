@@ -7,13 +7,15 @@ import { routes } from './app.routes';
 import { DataService } from './services/data.service';
 import { FormService } from './services/form-service';
 import { LocalStorageService } from './services/local-storage-service';
+import { ThemeService } from './services/theme-service';
 import { UsuarioService } from './services/usuario-service';
 
 const services = [
   DataService,
   FormService,
   LocalStorageService,
-  UsuarioService
+  UsuarioService,
+  ThemeService
 ]
 
 export const appConfig: ApplicationConfig = {
