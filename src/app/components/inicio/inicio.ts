@@ -1,76 +1,57 @@
-import { Component, inject } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { NavigationExtras, Router, RouterOutlet } from '@angular/router';
+import { Component, DOCUMENT, inject, OnInit, signal } from '@angular/core';
+import { MatDividerModule } from "@angular/material/divider";
+import { NavigationExtras, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MaterialToolbarModule } from '../../material/material.module';
+import { MenuModel } from '../../models/menu-model';
 import { LocalStorageService } from '../../services/local-storage-service';
-import { Menu } from '../menu/menu';
+import { ThemeService } from '../../services/theme-service';
 
 
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',
-  imports: [MaterialToolbarModule, RouterOutlet],
+  imports: [MaterialToolbarModule, RouterOutlet, MatDividerModule, RouterLink, RouterLinkActive],
 })
-export class Inicio {
+export class Inicio implements OnInit {
 
-  logged = false;
-  isChecked = false;
-  public isLightTheme = true;
+  logged = signal<boolean>(false);
+  isChecked = signal<boolean>(false);
+  public isLightTheme = signal<boolean>(true);
 
-  private dialog = inject(MatDialog);
   private localStorage = inject(LocalStorageService);
+  private themeService = inject(ThemeService);
 
-  constructor(
-    private _router: Router) {
-    var logged1 = this.localStorage.getItem('logged');
-    this.logged = logged1 == 'true' ? true : false;
+  private _router = inject(Router);
+
+  public menusList = signal<Array<MenuModel>>([]);
+
+  constructor() { }
+
+  ngOnInit(): void {
+    this.cargarMenusDeMantenimientos();
+    this.validarUsuarioLogeado();
+  
+    this.isLightTheme.update(val => !this.isChecked);
+    this.themeService.setTheme(this.isLightTheme() ? 'light' : 'dark');
   }
 
   onThemeSwitchChange() {
-    this.isLightTheme = !this.isChecked;
-
-    document.body.setAttribute(
-      'data-theme',
-      this.isLightTheme ? 'light' : 'dark'
-    );
+    this.themeService.toggleTheme();
   }
 
   routerActivated(value: any): void {
-    var logged1 = this.localStorage.getItem('logged');
-    this.logged = logged1 == 'true' ? true : false;
+    this.validarUsuarioLogeado();
   }
 
-  onLoggionChangue(value: any): void {
-    console.log('valor loggin changue');
-    console.log(value);
-    if (value) {
-      this.logged = true;
-    } else {
-      this.logged = false;
-    }
+  cargarMenusDeMantenimientos() {
+    var nuevosMenus: Array<MenuModel> = [];
+    nuevosMenus.push({ id: 1, ruta: '/menu/login', nombre: 'Iniciar Sesion' });
+    nuevosMenus.push({ id: 2, ruta: '/menu/productos', nombre: 'Productos' });
+
+    this.menusList.update(valores => [...nuevosMenus]);
   }
 
-  abrirMenu() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      idUsuario: 1
-    };
-    const dialogRef = this.dialog.open(Menu, dialogConfig);
-    dialogRef.afterClosed().subscribe(
-      result => {
-        if (result && result?.url) {
-          let navigationExtras: NavigationExtras = {
-            queryParams: {
-              "nada": 'xd'
-            }
-          };
-          this._router.navigate([result.url], navigationExtras);
-        }
-      });
-  }
 
   homeClick() {
     let navigationExtras: NavigationExtras = {
@@ -78,7 +59,7 @@ export class Inicio {
         "nada": 'xd'
       }
     };
-    this._router.navigate(['/menu/planilla'], navigationExtras);
+    this._router.navigate(['/menu/productos'], navigationExtras);
   }
 
   cerrarSesion() {
@@ -89,6 +70,11 @@ export class Inicio {
     };
     this.localStorage.setItem('logged', 'false');
     this._router.navigate(['/menu/login'], navigationExtras);
+  }
+
+  validarUsuarioLogeado() {
+    const logged1 = this.localStorage.getItem('logged');
+    this.logged.update(val => (logged1 == true));
   }
 
 }

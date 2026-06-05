@@ -1,26 +1,33 @@
 <mat-toolbar color="primary">
-    <button mat-icon-button class="example-icon" (click)="abrirMenu()" aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-    </button>
+    <button matIconButton [matMenuTriggerFor]="menu">
+            <mat-icon>account_circle</mat-icon>
+        </button>
     <span [style.marginLeft]="'1em'"></span>
     <span><img (click)="homeClick()" [style.height]="'100%'" [style.maxHeight]="'1.5em'" src="logo2.png"></span>
     <span [style.marginLeft]="'1em'"></span>
     <span>TechStoreSV</span>
     <span [style.marginLeft]="'2em'" class="example-spacer"></span>
-    <span>
-        <button [hidden]="!logged" matButton filled-icon-spacing [matMenuTriggerFor]="menu">
-            <mat-icon>account_circle</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="cerrarSesion()">
-                <mat-icon>account_circle_off</mat-icon>
-                <span>Cerrar Sesion</span>
-            </button>
-            <mat-slide-toggle [(ngModel)]="isChecked" (change)="onThemeSwitchChange()">Colores:
-                {{isChecked?'Oscuro':'Claro'}}</mat-slide-toggle>
-        </mat-menu>
-    </span>
 </mat-toolbar>
+
+<mat-menu #menu="matMenu">
+    @for (menu of menusList(); track menu) {
+    <button mat-menu-item
+        [routerLink]="menu.ruta" routerLinkActive="active-menu-item">{{menu.nombre}}</button>
+    }
+
+    <mat-divider></mat-divider>
+
+    @if (logged()) {
+    <button  mat-menu-item [hidden]="logged()==false" (click)="cerrarSesion()">
+        <mat-icon>account_circle_off</mat-icon>
+        <span>Cerrar Sesion</span>
+    </button>
+    <mat-divider></mat-divider>
+    }
+
+    <mat-slide-toggle [(ngModel)]="isChecked" (change)="onThemeSwitchChange()">Colores:
+        {{isChecked()?'Oscuro':'Claro'}}</mat-slide-toggle>
+</mat-menu>
 
 <div class="container-fluid">
     <div class="row">
