@@ -38,4 +38,8 @@ export class ThemeService {
     this.theme.set(newTheme);
   }
 
+  getTheme(){
+    return this.localStorageService.getItem<string>('app-theme');
+  }
+
 }
