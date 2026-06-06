@@ -5,6 +5,7 @@ import { FieldConfig } from '../models/field-config';
 import { EstadoProducto } from '../models/estado-producto';
 import { SelectOption } from '../models/select-option';
 import { Producto } from '../models/producto';
+import { DataApp } from '../util/data-app';
 
 @Injectable({
   providedIn: 'root',
@@ -68,7 +69,7 @@ export class FormService {
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       descripcion: ['', [Validators.required, Validators.minLength(3)]],
       precio_venta: [0, [Validators.required, Validators.min(0.01)]],
-      estado: [DataService.estadoProductoVacio(), [Validators.required]]
+      estado: [DataApp.estadoProductoVacio(), [Validators.required]]
     });
   }
 
@@ -78,7 +79,7 @@ export class FormService {
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       descripcion: ['', [Validators.required, Validators.minLength(3)]],
       precio_venta: [0, [Validators.required, Validators.min(0.01)]],
-      estado: [DataService.estadoProductoVacio(), [Validators.required]]
+      estado: [DataApp.estadoProductoVacio(), [Validators.required]]
     });
   }
 
@@ -88,7 +89,7 @@ export class FormService {
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       descripcion: ['', [Validators.required, Validators.minLength(3)]],
       precio_venta: [0, [Validators.required, Validators.min(0.01)]],
-      estado: [DataService.estadoProductoVacio(), [Validators.required]]
+      estado: [DataApp.estadoProductoVacio(), [Validators.required]]
     });
   }
 
@@ -98,7 +99,7 @@ export class FormService {
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       descripcion: ['', [Validators.required, Validators.minLength(3)]],
       precio_venta: [0, [Validators.required, Validators.min(0.01)]],
-      estado: [DataService.estadoProductoVacio(), [Validators.required]]
+      estado: [DataApp.estadoProductoVacio(), [Validators.required]]
     });
   }
 
