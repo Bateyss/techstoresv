@@ -10,6 +10,7 @@ import { DataService } from '../../services/data.service';
 import { FormService } from '../../services/form-service';
 import { FormErrorStateMatcher } from '../../util/form-error-state-matcher';
 import { Utils } from '../../util/utils';
+import { DataApp } from '../../util/data-app';
 
 @Component({
   selector: 'app-productos',
@@ -25,7 +26,7 @@ export class Productos implements OnInit {
   private dialog = inject(MatDialog);
   private dataService = inject(DataService);
 
-  public productoSeleccionado: Producto = DataService.productoVacio();
+  public productoSeleccionado: Producto = DataApp.productoVacio();
 
   public productosList = signal<Array<Producto>>([]);
 
@@ -54,7 +55,7 @@ export class Productos implements OnInit {
     dialogRef.afterClosed().subscribe(
       result => {
         this.cargarListas();
-        this.productoSeleccionado = DataService.productoVacio();
+        this.productoSeleccionado = DataApp.productoVacio();
       });
   }
 
@@ -74,7 +75,7 @@ export class Productos implements OnInit {
 export class CrearProductoDialog implements OnInit {
 
   public innerWidths = '0';
-  private document =  inject(DOCUMENT);
+  private document = inject(DOCUMENT);
 
   private _snackBar = inject(MatSnackBar);
   private dataService = inject(DataService);
@@ -85,9 +86,9 @@ export class CrearProductoDialog implements OnInit {
   private formService = inject(FormService);
   public productoForm!: UntypedFormGroup;
 
-  public productoSeleccionado: Producto = DataService.productoVacio();
+  public productoSeleccionado: Producto = DataApp.productoVacio();
 
-  public estadoProductoList: Array<EstadoProducto> = [];
+  public estadoProductoList = signal<Array<EstadoProducto>>([]);
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {
     productoSeleccionado: Producto
@@ -99,7 +100,7 @@ export class CrearProductoDialog implements OnInit {
   ngOnInit() {
     this.cargarListas();
 
-    var newConfig = this.formService.newProductoControls(this.estadoProductoList);
+    var newConfig = this.formService.newProductoControls(this.estadoProductoList());
     this.productoForm = this.formService.getFormGroup(newConfig);
 
     this.formConfigs.update(actual => [...newConfig]);
@@ -128,7 +129,7 @@ export class CrearProductoDialog implements OnInit {
   }
 
   cargarListas() {
-    this.estadoProductoList = this.dataService.getEstadosProducto();
+    this.estadoProductoList.update(valores => [...this.dataService.getEstadosProducto()]);
   }
 
   guardarProducto() {

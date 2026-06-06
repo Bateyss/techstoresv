@@ -7,4 +7,6 @@ export interface Producto {
     descripcion: string;
     precio_venta:number;
     estado: EstadoProducto;
+    stock_local?: number;
+    stock_web?: number;
 }
