@@ -5,6 +5,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { MaterialFormModule } from '../../material/material.module';
 import { LocalStorageService } from '../../services/local-storage-service';
 import { UsuarioService } from '../../services/usuario-service';
+import { DataApp } from '../../util/data-app';
 import { FormErrorStateMatcher } from '../../util/form-error-state-matcher';
 import { Utils } from '../../util/utils';
 
@@ -41,8 +42,8 @@ export class Login {
       var usuario = this.usuarioService.validarUsuario(this.loginF('username')?.value, this.loginF('password')?.value);
       if (usuario && usuario.id > 1) {
         Utils.openSnackBar('Login exitoso', 'ok', this._snackBar);
-        this.localStorage.setItem('usuario', usuario);
-        this.localStorage.setItem('logged', 'true');
+        this.localStorage.setItem(DataApp.LOGGED_USUARIO, usuario);
+        this.localStorage.setItem(DataApp.LOGGED, 'true');
         let navigationExtras: NavigationExtras = {
           queryParams: {
             "logged": 'true'
@@ -59,8 +60,8 @@ export class Login {
 
   iniciarInvitado() {
     var usuario = this.usuarioService.getUsuarioAnonimo();
-    this.localStorage.setItem('usuario', usuario);
-    this.localStorage.setItem('logged', 'true');
+    this.localStorage.setItem(DataApp.LOGGED_USUARIO, usuario);
+    this.localStorage.setItem(DataApp.LOGGED, 'true');
     let navigationExtras: NavigationExtras = {
       queryParams: {
         "logged": 'true'

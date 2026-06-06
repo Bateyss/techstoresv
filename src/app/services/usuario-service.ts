@@ -58,7 +58,7 @@ export class UsuarioService {
     Utils.generateSHA256(pass).then(b => passEncrypted = b);
     var usuarioList: Array<Usuario> = this.getUsuarios();
 
-    var usuarioSesion = DataService.usuarioVacio();
+    var usuarioSesion = DataApp.usuarioVacio();
 
     if (usuarioList && usuarioList.length) {
       usuarioList
@@ -72,6 +72,15 @@ export class UsuarioService {
     } else {
       return null;
     }
+  }
+
+  getUsuarioLoggeado(): Usuario{
+    var usuario = DataApp.usuarioVacio();
+    var usuarioSesion = this.localStorageService.getItem<Usuario>('usuario');
+    if (usuarioSesion) {
+      usuario = usuarioSesion;
+    }
+    return usuario;
   }
 
 }

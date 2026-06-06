@@ -1,24 +1,26 @@
-<mat-toolbar color="primary">
+<mat-toolbar >
     <button matIconButton [matMenuTriggerFor]="menu">
-            <mat-icon>account_circle</mat-icon>
-        </button>
+        @if (logged()) {
+        <mat-icon>account_circle</mat-icon>
+        }
+        @if (!logged()) {
+        <mat-icon>menu</mat-icon>
+        }
+    </button>
     <span [style.marginLeft]="'1em'"></span>
-    <span><img (click)="homeClick()" [style.height]="'100%'" [style.maxHeight]="'1.5em'" src="logo2.png"></span>
+    <span><img (click)="homeClick()" [style.height]="'100%'" [style.maxHeight]="'2em'" src="logo3.png"></span>
     <span [style.marginLeft]="'1em'"></span>
-    <span>TechStoreSV</span>
-    <span [style.marginLeft]="'2em'" class="example-spacer"></span>
 </mat-toolbar>
 
 <mat-menu #menu="matMenu">
     @for (menu of menusList(); track menu) {
-    <button mat-menu-item
-        [routerLink]="menu.ruta" routerLinkActive="active-menu-item">{{menu.nombre}}</button>
+    <button mat-menu-item [routerLink]="menu.ruta" routerLinkActive="active-menu-item">{{menu.nombre}}</button>
     }
 
     <mat-divider></mat-divider>
 
     @if (logged()) {
-    <button  mat-menu-item [hidden]="logged()==false" (click)="cerrarSesion()">
+    <button mat-menu-item [hidden]="logged()==false" (click)="cerrarSesion()">
         <mat-icon>account_circle_off</mat-icon>
         <span>Cerrar Sesion</span>
     </button>

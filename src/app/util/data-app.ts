@@ -21,6 +21,9 @@ export class DataApp {
     public static readonly ESTADO_PRODUCTO_ID: string = 'estadoProductoList';
     public static readonly TIPO_MOVIMIENTO_ID: string = 'tipoMovimientoList';
 
+    public static readonly LOGGED_USUARIO: string = 'usuario';
+    public static readonly LOGGED: string = 'logged';
+
     public static estadoPedidoVacio(): EstadoPedido {
         return {
             id: 0,
