@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Usuario } from '../models/usuario';
+import { DataApp } from '../util/data-app';
 import { Utils } from '../util/utils';
 import { DataService } from './data.service';
 import { LocalStorageService } from './local-storage-service';
@@ -33,7 +34,7 @@ export class UsuarioService {
     var usuarioList: Array<Usuario> = this.getUsuarios();
     datos.id = usuarioList[usuarioList.length - 1].id + 1;
     usuarioList.push(datos);
-    this.localStorageService.setItem(DataService.USUARIOS_ID, usuarioList);
+    this.localStorageService.setItem(DataApp.USUARIOS_ID, usuarioList);
   }
 
   editarUsuario(datos: Usuario) {
@@ -49,7 +50,7 @@ export class UsuarioService {
       usuarioListNueva.push(newData);
     });
 
-    this.localStorageService.setItem(DataService.USUARIOS_ID, usuarioListNueva);
+    this.localStorageService.setItem(DataApp.USUARIOS_ID, usuarioListNueva);
   }
 
   validarUsuario(user: string, pass: string): Usuario | null {
