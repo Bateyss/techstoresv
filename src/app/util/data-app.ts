@@ -114,6 +114,15 @@ export class DataApp {
         }
     }
 
+    public static pasarelaVacio(): Pasarela {
+        return {
+            id: 0,
+            nombre: '',
+            descripcion: '',
+            comision: 0
+        }
+    }
+
 
     public static getUsuarios(): Array<Usuario> {
         var usuarioList: Array<Usuario> = [];
