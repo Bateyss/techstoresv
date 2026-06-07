@@ -3,6 +3,7 @@ import { EstadoPedido } from "../models/estado-pedido";
 import { EstadoProducto } from "../models/estado-producto";
 import { LoteInventario } from "../models/lote-inventario";
 import { MovimientoInventario } from "../models/movimiento-inventario";
+import { Pasarela } from "../models/pasarela";
 import { Pedido } from "../models/pedido";
 import { Producto } from "../models/producto";
 import { TipoMovimiento } from "../models/tipo-movimiento";
@@ -20,6 +21,8 @@ export class DataApp {
     public static readonly ESTADO_PEDIDO_ID: string = 'estadoPedidoList';
     public static readonly ESTADO_PRODUCTO_ID: string = 'estadoProductoList';
     public static readonly TIPO_MOVIMIENTO_ID: string = 'tipoMovimientoList';
+
+    public static readonly PASARELA_ID: string = 'pasarelaList';
 
     public static readonly LOGGED_USUARIO: string = 'usuario';
     public static readonly LOGGED: string = 'logged';
@@ -429,6 +432,31 @@ export class DataApp {
             fecha: new Date()
         });
         return movimientoInventarioList;
+    }
+
+
+    public static getPasarelas(): Array<Pasarela> {
+        var pasarelaList: Array<Pasarela> = [];
+        pasarelaList.push({
+            id: 1,
+            nombre: 'Wompi',
+            descripcion: 'wompi el salvador',
+            comision: 1.50
+        });
+        pasarelaList.push({
+            id: 2,
+            nombre: 'Serfinsa',
+            descripcion: 'serfinsa el salvador',
+            comision: 1.50
+        });
+        pasarelaList.push({
+            id: 3,
+            nombre: 'PayPal',
+            descripcion: 'PayPal international',
+            comision: 1.50
+        });
+        
+        return pasarelaList;
     }
 
 

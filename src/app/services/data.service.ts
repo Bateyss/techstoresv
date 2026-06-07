@@ -10,6 +10,7 @@ import { TipoMovimiento } from '../models/tipo-movimiento';
 import { Usuario } from '../models/usuario';
 import { DataApp } from '../util/data-app';
 import { LocalStorageService } from './local-storage-service';
+import { Pasarela } from '../models/pasarela';
 
 @Injectable({
   providedIn: 'root'
@@ -162,6 +163,22 @@ export class DataService {
 
     this.localStorageService.setItem(DataApp.MOVIMIENTOS_INVENTARIO_ID, movimientoInventarioList);
     return movimientoInventarioList;
+  }
+
+  getPasarelas(): Array<Pasarela> {
+    var pasarelaList: Array<Pasarela> = [];
+
+    var pasarelaListSession = this.localStorageService.getItem<Array<Pasarela>>(DataApp.PASARELA_ID);
+    if (pasarelaListSession) {
+      pasarelaList = pasarelaListSession;
+    }
+
+    if (!pasarelaList || pasarelaList.length == 0) {
+      pasarelaList = DataApp.getPasarelas();
+    }
+
+    this.localStorageService.setItem(DataApp.PASARELA_ID, pasarelaList);  
+    return pasarelaList;
   }
 
   pushProducto(datos: Producto) {
