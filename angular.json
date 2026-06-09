@@ -55,6 +55,11 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "github-pages": {
+              "baseHref": "https://bateyss.github.io/techstoresv/",
+              "outputMode": "static",
+              "ssr": false
             }
           },
           "defaultConfiguration": "production"
@@ -73,6 +78,9 @@
         },
         "test": {
           "builder": "@angular/build:unit-test"
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
