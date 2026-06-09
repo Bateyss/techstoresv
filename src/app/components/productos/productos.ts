@@ -142,8 +142,9 @@ export class CrearProductoDialog implements OnInit {
         this.dataService.editarProducto(this.productoSeleccionado);
         Utils.openSnackBar('CAMBIOS GUARDADOS EXITOSAMENTE', 'aceptar', this._snackBar);
       } else {
+        this.productoSeleccionado = this.productoForm.value;
         this.dataService.pushProducto(this.productoSeleccionado);
-        Utils.openSnackBar('NUEVA PLANILLA CREADA EXITOSAMENTE', 'aceptar', this._snackBar);
+        Utils.openSnackBar('NUEVO PRODUCTO CREADO EXITOSAMENTE', 'aceptar', this._snackBar);
       }
 
       this.dialogRef.close();

@@ -2,10 +2,16 @@
     <mat-expansion-panel hideToggle expanded="true">
         <mat-expansion-panel-header>
             <mat-panel-description>
-                <button mat-stroked-button *ngIf="!productoSeleccionado || productoSeleccionado.id == 0" color="primary"
+                @if (!productoSeleccionado || productoSeleccionado.id == 0) {
+                    <button mat-stroked-button color="primary"
                     (click)="crearProducto()">Crear Producto</button>
-                <button mat-stroked-button *ngIf="!productoSeleccionado || productoSeleccionado.id > 0" color="primary"
+                }
+                @if (!productoSeleccionado || productoSeleccionado.id > 0) {
+                    <button mat-stroked-button color="primary"
                     (click)="crearProducto()">Editar Producto</button>
+                }
+                
+                
             </mat-panel-description>
         </mat-expansion-panel-header>
     </mat-expansion-panel>
