@@ -50,7 +50,7 @@ export class Inicio implements OnInit {
     var nuevosMenus: Array<MenuModel> = [];
     nuevosMenus.push({ id: 1, ruta: '/menu/login', nombre: 'Iniciar Sesion' });
     nuevosMenus.push({ id: 2, ruta: '/menu/productos', nombre: 'Productos' });
-
+    nuevosMenus.push({ id: 3, ruta: '/menu/carrito', nombre: 'Carrito' });
     this.menusList.update(valores => [...nuevosMenus]);
   }
 
