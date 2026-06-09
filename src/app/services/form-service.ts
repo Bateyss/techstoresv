@@ -6,6 +6,7 @@ import { EstadoProducto } from '../models/estado-producto';
 import { SelectOption } from '../models/select-option';
 import { Producto } from '../models/producto';
 import { DataApp } from '../util/data-app';
+import { Pasarela } from '../models/pasarela';
 
 @Injectable({
   providedIn: 'root',
@@ -63,14 +64,16 @@ export class FormService {
   }
 
 
-  newVentaForm(): UntypedFormGroup {
-    return this.formBuilder.group({
-      sku: ['', [Validators.required, Validators.minLength(5)]],
-      nombre: ['', [Validators.required, Validators.minLength(3)]],
-      descripcion: ['', [Validators.required, Validators.minLength(3)]],
-      precio_venta: [0, [Validators.required, Validators.min(0.01)]],
-      estado: [DataApp.estadoProductoVacio(), [Validators.required]]
-    });
+  newVentaLineaFormControls(pasarelaList: Array<Pasarela>): FieldConfig[] {
+    var selectionPasarela: Array<SelectOption> = [];
+    if (pasarelaList && pasarelaList.length > 0) {
+      pasarelaList.forEach(
+        modelo => selectionPasarela.push({ id: modelo.id, name: modelo.nombre + 'comision: $' + modelo.comision, value: modelo })
+      );
+    }
+    return [
+      { id: 1, name: 'pasarela', label: 'Pasarela de pago', type: 'text', controlType: 'select', validators: [Validators.required], options: selectionPasarela },
+    ];
   }
 
   newMermaForm(): UntypedFormGroup {
