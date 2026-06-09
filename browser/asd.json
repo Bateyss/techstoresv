@@ -1,0 +1,374 @@
+[
+    {
+        "id": 1,
+        "producto": {
+            "id": 1,
+            "sku": "p1",
+            "nombre": "producto1",
+            "descripcion": "descripcion1",
+            "precio_venta": 1.5,
+            "estado": {
+                "id": 1,
+                "descripcion": "Disponible"
+            }
+        },
+        "lote": {
+            "id": 1,
+            "producto": {
+                "id": 1,
+                "sku": "p1",
+                "nombre": "producto1",
+                "descripcion": "descripcion1",
+                "precio_venta": 1.5,
+                "estado": {
+                    "id": 1,
+                    "descripcion": "Disponible"
+                }
+            },
+            "cantidad_inicial": 100,
+            "cantidad_actual": 100,
+            "costo_unitario": 0.9,
+            "fecha_ingreso": "2026-06-09T15:50:38.673Z"
+        },
+        "tipo_movimiento": {
+            "id": 2,
+            "descripcion": "Venta"
+        },
+        "cantidad": 100,
+        "pedido": null,
+        "fecha": "2026-06-09T15:50:38.673Z"
+    },
+    {
+        "id": 2,
+        "producto": {
+            "id": 1,
+            "sku": "p1",
+            "nombre": "producto1",
+            "descripcion": "descripcion1",
+            "precio_venta": 1.5,
+            "estado": {
+                "id": 1,
+                "descripcion": "Disponible"
+            }
+        },
+        "lote": {
+            "id": 2,
+            "producto": {
+                "id": 1,
+                "sku": "p1",
+                "nombre": "producto1",
+                "descripcion": "descripcion1",
+                "precio_venta": 1.5,
+                "estado": {
+                    "id": 1,
+                    "descripcion": "Disponible"
+                }
+            },
+            "cantidad_inicial": 50,
+            "cantidad_actual": 50,
+            "costo_unitario": 0.95,
+            "fecha_ingreso": "2026-06-09T15:50:38.673Z"
+        },
+        "tipo_movimiento": {
+            "id": 2,
+            "descripcion": "Venta"
+        },
+        "cantidad": 50,
+        "pedido": null,
+        "fecha": "2026-06-09T15:50:38.673Z"
+    },
+    {
+        "id": 3,
+        "producto": {
+            "id": 2,
+            "sku": "p2",
+            "nombre": "producto2",
+            "descripcion": "descripcion2",
+            "precio_venta": 2.5,
+            "estado": {
+                "id": 1,
+                "descripcion": "Disponible"
+            }
+        },
+        "lote": {
+            "id": 3,
+            "producto": {
+                "id": 2,
+                "sku": "p2",
+                "nombre": "producto2",
+                "descripcion": "descripcion2",
+                "precio_venta": 2.5,
+                "estado": {
+                    "id": 1,
+                    "descripcion": "Disponible"
+                }
+            },
+            "cantidad_inicial": 75,
+            "cantidad_actual": 75,
+            "costo_unitario": 2,
+            "fecha_ingreso": "2026-06-09T15:50:38.673Z"
+        },
+        "tipo_movimiento": {
+            "id": 2,
+            "descripcion": "Venta"
+        },
+        "cantidad": 75,
+        "pedido": null,
+        "fecha": "2026-06-09T15:50:38.673Z"
+    },
+    {
+        "id": 4,
+        "producto": {
+            "id": 3,
+            "sku": "p3",
+            "nombre": "producto3",
+            "descripcion": "descripcion3",
+            "precio_venta": 3.5,
+            "estado": {
+                "id": 1,
+                "descripcion": "Disponible"
+            }
+        },
+        "lote": {
+            "id": 4,
+            "producto": {
+                "id": 3,
+                "sku": "p3",
+                "nombre": "producto3",
+                "descripcion": "descripcion3",
+                "precio_venta": 3.5,
+                "estado": {
+                    "id": 1,
+                    "descripcion": "Disponible"
+                }
+            },
+            "cantidad_inicial": 150,
+            "cantidad_actual": 150,
+            "costo_unitario": 2.75,
+            "fecha_ingreso": "2026-06-09T15:50:38.673Z"
+        },
+        "tipo_movimiento": {
+            "id": 2,
+            "descripcion": "Venta"
+        },
+        "cantidad": 150,
+        "pedido": null,
+        "fecha": "2026-06-09T15:50:38.673Z"
+    },
+    {
+        "id": 5,
+        "producto": {
+            "id": 1,
+            "sku": "p1",
+            "nombre": "producto1",
+            "descripcion": "descripcion1",
+            "precio_venta": 1.5,
+            "estado": {
+                "id": 1,
+                "descripcion": "Disponible"
+            }
+        },
+        "lote": {
+            "id": 1,
+            "producto": {
+                "id": 1,
+                "sku": "p1",
+                "nombre": "producto1",
+                "descripcion": "descripcion1",
+                "precio_venta": 1.5,
+                "estado": {
+                    "id": 1,
+                    "descripcion": "Disponible"
+                }
+            },
+            "cantidad_inicial": 100,
+            "cantidad_actual": 100,
+            "costo_unitario": 0.9,
+            "fecha_ingreso": "2026-06-09T15:50:38.673Z"
+        },
+        "tipo_movimiento": {
+            "id": 3,
+            "descripcion": "Merma"
+        },
+        "cantidad": 10,
+        "pedido": {
+            "id": 1,
+            "usuario": {
+                "id": 2,
+                "usuario": "jamileth",
+                "password": "",
+                "nombres": "Jamileth",
+                "apellidos": "Martinez",
+                "fecha_creacion": "2026-06-09T15:50:38.673Z"
+            },
+            "total": 10,
+            "estado": {
+                "id": 1,
+                "descripcion": "Carrito"
+            }
+        },
+        "fecha": "2026-06-09T15:50:38.673Z"
+    },
+    {
+        "id": 6,
+        "producto": {
+            "id": 3,
+            "sku": "p3",
+            "nombre": "producto3",
+            "descripcion": "descripcion3",
+            "precio_venta": 3.5,
+            "estado": {
+                "id": 1,
+                "descripcion": "Disponible"
+            }
+        },
+        "lote": {
+            "id": 3,
+            "producto": {
+                "id": 2,
+                "sku": "p2",
+                "nombre": "producto2",
+                "descripcion": "descripcion2",
+                "precio_venta": 2.5,
+                "estado": {
+                    "id": 1,
+                    "descripcion": "Disponible"
+                }
+            },
+            "cantidad_inicial": 75,
+            "cantidad_actual": 75,
+            "costo_unitario": 2,
+            "fecha_ingreso": "2026-06-09T15:50:38.673Z"
+        },
+        "tipo_movimiento": {
+            "id": 3,
+            "descripcion": "Merma"
+        },
+        "cantidad": 10,
+        "pedido": {
+            "id": 1,
+            "usuario": {
+                "id": 2,
+                "usuario": "jamileth",
+                "password": "",
+                "nombres": "Jamileth",
+                "apellidos": "Martinez",
+                "fecha_creacion": "2026-06-09T15:50:38.673Z"
+            },
+            "total": 10,
+            "estado": {
+                "id": 1,
+                "descripcion": "Carrito"
+            }
+        },
+        "fecha": "2026-06-09T15:50:38.673Z"
+    },
+    {
+        "id": 7,
+        "producto": {
+            "id": 1,
+            "sku": "p1",
+            "nombre": "producto1",
+            "descripcion": "descripcion1",
+            "precio_venta": 1.5,
+            "estado": {
+                "id": 1,
+                "descripcion": "Disponible"
+            }
+        },
+        "lote": {
+            "id": 1,
+            "producto": {
+                "id": 1,
+                "sku": "p1",
+                "nombre": "producto1",
+                "descripcion": "descripcion1",
+                "precio_venta": 1.5,
+                "estado": {
+                    "id": 1,
+                    "descripcion": "Disponible"
+                }
+            },
+            "cantidad_inicial": 100,
+            "cantidad_actual": 98,
+            "costo_unitario": 0.9,
+            "fecha_ingreso": "2026-06-09T15:50:38.672Z"
+        },
+        "tipo_movimiento": {
+            "id": 2,
+            "descripcion": "Venta"
+        },
+        "cantidad": 2,
+        "pedido": {
+            "id": 1,
+            "usuario": {
+                "id": 2,
+                "usuario": "jamileth",
+                "password": "",
+                "nombres": "Jamileth",
+                "apellidos": "Martinez",
+                "fecha_creacion": "2026-06-09T15:50:33.528Z"
+            },
+            "total": 10,
+            "estado": {
+                "id": 3,
+                "descripcion": "Pagado"
+            }
+        },
+        "fecha": "2026-06-09T15:50:38.671Z"
+    },
+    {
+        "id": 8,
+        "producto": {
+            "id": 3,
+            "sku": "p3",
+            "nombre": "producto3",
+            "descripcion": "descripcion3",
+            "precio_venta": 3.5,
+            "estado": {
+                "id": 1,
+                "descripcion": "Disponible"
+            }
+        },
+        "lote": {
+            "id": 4,
+            "producto": {
+                "id": 3,
+                "sku": "p3",
+                "nombre": "producto3",
+                "descripcion": "descripcion3",
+                "precio_venta": 3.5,
+                "estado": {
+                    "id": 1,
+                    "descripcion": "Disponible"
+                }
+            },
+            "cantidad_inicial": 150,
+            "cantidad_actual": 148,
+            "costo_unitario": 2.75,
+            "fecha_ingreso": "2026-06-09T15:50:38.672Z"
+        },
+        "tipo_movimiento": {
+            "id": 2,
+            "descripcion": "Venta"
+        },
+        "cantidad": 2,
+        "pedido": {
+            "id": 1,
+            "usuario": {
+                "id": 2,
+                "usuario": "jamileth",
+                "password": "",
+                "nombres": "Jamileth",
+                "apellidos": "Martinez",
+                "fecha_creacion": "2026-06-09T15:50:33.528Z"
+            },
+            "total": 10,
+            "estado": {
+                "id": 3,
+                "descripcion": "Pagado"
+            }
+        },
+        "fecha": "2026-06-09T15:50:38.674Z"
+    }
+]

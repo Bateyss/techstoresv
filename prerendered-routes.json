@@ -1,0 +1,9 @@
+{
+  "routes": {
+    "/techstoresv": {},
+    "/techstoresv/menu": {},
+    "/techstoresv/menu/carrito": {},
+    "/techstoresv/menu/login": {},
+    "/techstoresv/menu/productos": {}
+  }
+}
