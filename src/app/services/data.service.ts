@@ -4,13 +4,13 @@ import { EstadoPedido } from '../models/estado-pedido';
 import { EstadoProducto } from '../models/estado-producto';
 import { LoteInventario } from '../models/lote-inventario';
 import { MovimientoInventario } from '../models/movimiento-inventario';
+import { Pasarela } from '../models/pasarela';
 import { Pedido } from '../models/pedido';
 import { Producto } from '../models/producto';
 import { TipoMovimiento } from '../models/tipo-movimiento';
 import { Usuario } from '../models/usuario';
 import { DataApp } from '../util/data-app';
 import { LocalStorageService } from './local-storage-service';
-import { Pasarela } from '../models/pasarela';
 
 @Injectable({
   providedIn: 'root'
@@ -31,9 +31,9 @@ export class DataService {
 
     if (!usuarioList || usuarioList.length == 0) {
       usuarioList = DataApp.getUsuarios();
+      this.localStorageService.setItem(DataApp.USUARIOS_ID, usuarioList);
     }
 
-    this.localStorageService.setItem(DataApp.USUARIOS_ID, usuarioList);
     return usuarioList;
   }
 
@@ -47,9 +47,9 @@ export class DataService {
 
     if (!estadoPedidoList || estadoPedidoList.length == 0) {
       estadoPedidoList = DataApp.getEstadosPedido();
+      this.localStorageService.setItem(DataApp.ESTADO_PEDIDO_ID, estadoPedidoList);
     }
 
-    this.localStorageService.setItem(DataApp.ESTADO_PEDIDO_ID, estadoPedidoList);
     return estadoPedidoList;
   }
 
@@ -62,10 +62,10 @@ export class DataService {
     }
 
     if (!estadoProductoList || estadoProductoList.length == 0) {
-      estadoProductoList = DataApp.getEstadosPedido();
+      estadoProductoList = DataApp.getEstadosProducto();
+      this.localStorageService.setItem(DataApp.ESTADO_PRODUCTO_ID, estadoProductoList);
     }
 
-    this.localStorageService.setItem(DataApp.ESTADO_PRODUCTO_ID, estadoProductoList);
     return estadoProductoList;
   }
 
@@ -78,10 +78,10 @@ export class DataService {
     }
 
     if (!tipoMovimientoList || tipoMovimientoList.length == 0) {
-      tipoMovimientoList = DataApp.getTiposMovimiento()
+      tipoMovimientoList = DataApp.getTiposMovimiento();
+      this.localStorageService.setItem(DataApp.TIPO_MOVIMIENTO_ID, tipoMovimientoList);
     }
 
-    this.localStorageService.setItem(DataApp.TIPO_MOVIMIENTO_ID, tipoMovimientoList);
     return tipoMovimientoList;
   }
 
@@ -95,9 +95,9 @@ export class DataService {
 
     if (!productoList || productoList.length == 0) {
       productoList = DataApp.getProductos();
+      this.localStorageService.setItem(DataApp.PRODUCTOS_ID, productoList);
     }
 
-    this.localStorageService.setItem(DataApp.PRODUCTOS_ID, productoList);
     return productoList;
   }
 
@@ -111,9 +111,9 @@ export class DataService {
 
     if (!loteList || loteList.length == 0) {
       loteList = DataApp.getLotesInventario();
+      this.localStorageService.setItem(DataApp.LOTES_INVENTARIO_ID, loteList);
     }
 
-    this.localStorageService.setItem(DataApp.LOTES_INVENTARIO_ID, loteList);
     return loteList;
   }
 
@@ -122,14 +122,14 @@ export class DataService {
 
     var pedidoListSession = this.localStorageService.getItem<Array<Pedido>>(DataApp.PEDIDOS_ID);
     if (pedidoListSession) {
-      pedidoListSession = pedidoListSession;
+      pedidoList = pedidoListSession;
     }
 
     if (!pedidoList || pedidoList.length == 0) {
       pedidoList = DataApp.getPedidos();
+      this.localStorageService.setItem(DataApp.PEDIDOS_ID, pedidoList);
     }
 
-    this.localStorageService.setItem(DataApp.PEDIDOS_ID, pedidoList);
     return pedidoList;
   }
 
@@ -143,9 +143,9 @@ export class DataService {
 
     if (!detallePedidoList || detallePedidoList.length == 0) {
       detallePedidoList = DataApp.getDetallePedidos();
+      this.localStorageService.setItem(DataApp.DETALLE_PEDIDOS_ID, detallePedidoList);
     }
 
-    this.localStorageService.setItem(DataApp.DETALLE_PEDIDOS_ID, detallePedidoList);
     return detallePedidoList;
   }
 
@@ -159,9 +159,9 @@ export class DataService {
 
     if (!movimientoInventarioList || movimientoInventarioList.length == 0) {
       movimientoInventarioList = DataApp.getMovimientosInventario();
+      this.localStorageService.setItem(DataApp.MOVIMIENTOS_INVENTARIO_ID, movimientoInventarioList);
     }
 
-    this.localStorageService.setItem(DataApp.MOVIMIENTOS_INVENTARIO_ID, movimientoInventarioList);
     return movimientoInventarioList;
   }
 
@@ -171,13 +171,13 @@ export class DataService {
     var pasarelaListSession = this.localStorageService.getItem<Array<Pasarela>>(DataApp.PASARELA_ID);
     if (pasarelaListSession) {
       pasarelaList = pasarelaListSession;
+      this.localStorageService.setItem(DataApp.PASARELA_ID, pasarelaList);
     }
 
     if (!pasarelaList || pasarelaList.length == 0) {
       pasarelaList = DataApp.getPasarelas();
     }
 
-    this.localStorageService.setItem(DataApp.PASARELA_ID, pasarelaList);  
     return pasarelaList;
   }
 
@@ -259,6 +259,19 @@ export class DataService {
     });
 
     this.localStorageService.setItem(DataApp.DETALLE_PEDIDOS_ID, detalleListNueva);
+  }
+
+  editarPedido(datos: Pedido) {
+    var pedidoList: Array<Pedido> = this.getPedidos();
+    var pedidoListNueva: Array<Pedido> = [];
+    pedidoList.forEach(arrData => {
+      var newData: Pedido = arrData;
+      if (newData.id == datos.id) {
+        newData = datos;
+      }
+      pedidoListNueva.push(newData);
+    });
+    this.localStorageService.setItem(DataApp.PEDIDOS_ID, pedidoListNueva);
   }
 
 

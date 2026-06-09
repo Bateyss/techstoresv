@@ -247,7 +247,9 @@ export class DataApp {
             nombre: 'producto1',
             descripcion: 'descripcion1',
             precio_venta: 1.50,
-            estado: estadosProductos[0]
+            estado: estadosProductos[0],
+            stock_local: 25,
+            stock_web: 125
         });
         productoList.push({
             id: 2,
@@ -255,7 +257,9 @@ export class DataApp {
             nombre: 'producto2',
             descripcion: 'descripcion2',
             precio_venta: 2.50,
-            estado: estadosProductos[0]
+            estado: estadosProductos[0],
+            stock_local: 25,
+            stock_web: 50
         });
         productoList.push({
             id: 3,
@@ -263,7 +267,9 @@ export class DataApp {
             nombre: 'producto3',
             descripcion: 'descripcion3',
             precio_venta: 3.50,
-            estado: estadosProductos[0]
+            estado: estadosProductos[0],
+            stock_local: 25,
+            stock_web: 125
         });
         return productoList;
     }
@@ -314,19 +320,19 @@ export class DataApp {
             id: 1,
             usuario: usuarios[1],
             total: 10,
-            estado: estadosPedido[3]
+            estado: estadosPedido[0]
         });
         pedidoList.push({
             id: 2,
             usuario: usuarios[2],
             total: 10,
-            estado: estadosPedido[2]
+            estado: estadosPedido[0]
         });
         pedidoList.push({
             id: 3,
             usuario: usuarios[3],
             total: 10,
-            estado: estadosPedido[1]
+            estado: estadosPedido[2]
         });
         return pedidoList;
     }
@@ -384,13 +390,12 @@ export class DataApp {
         var movimientoInventarioList: Array<MovimientoInventario> = [];
         var productos = this.getProductos();
         var lotes = this.getLotesInventario();
-        var pedidos = this.getPedidos();
         var tiposMovimiento = this.getTiposMovimiento();
         movimientoInventarioList.push({
             id: 1,
             producto: productos[0],
             lote: lotes[0],
-            tipo_movimiento: tiposMovimiento[1],
+            tipo_movimiento: tiposMovimiento[0],
             cantidad: 100,
             pedido: null,
             fecha: new Date()
@@ -399,7 +404,7 @@ export class DataApp {
             id: 2,
             producto: productos[0],
             lote: lotes[1],
-            tipo_movimiento: tiposMovimiento[1],
+            tipo_movimiento: tiposMovimiento[0],
             cantidad: 50,
             pedido: null,
             fecha: new Date()
@@ -408,36 +413,18 @@ export class DataApp {
             id: 3,
             producto: productos[1],
             lote: lotes[2],
-            tipo_movimiento: tiposMovimiento[1],
+            tipo_movimiento: tiposMovimiento[0],
             cantidad: 75,
             pedido: null,
             fecha: new Date()
         });
         movimientoInventarioList.push({
-            id: 3,
+            id: 4,
             producto: productos[2],
             lote: lotes[3],
-            tipo_movimiento: tiposMovimiento[1],
+            tipo_movimiento: tiposMovimiento[0],
             cantidad: 150,
             pedido: null,
-            fecha: new Date()
-        });
-        movimientoInventarioList.push({
-            id: 1,
-            producto: productos[0],
-            lote: lotes[0],
-            tipo_movimiento: tiposMovimiento[2],
-            cantidad: 10,
-            pedido: pedidos[0],
-            fecha: new Date()
-        });
-        movimientoInventarioList.push({
-            id: 1,
-            producto: productos[2],
-            lote: lotes[2],
-            tipo_movimiento: tiposMovimiento[2],
-            cantidad: 10,
-            pedido: pedidos[0],
             fecha: new Date()
         });
         return movimientoInventarioList;
