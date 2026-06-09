@@ -7,7 +7,9 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:techstoresv": "node dist/techstoresv/server/server.mjs"
+    "serve:ssr:techstoresv": "node dist/techstoresv/server/server.mjs",
+    "deploy-page": "ng build --configuration github-pages && npx angular-cli-ghpages --dir=dist/techstoresv/browser",
+    "deploy-ng-gh-pages": "ng deploy --repo=https://github.com/Bateyss/techstoresv.git --name=\"bateyss\" --base-href=/techstoresv/"
   },
   "private": true,
   "packageManager": "npm@11.16.0",
@@ -32,9 +34,16 @@
     "@angular/compiler-cli": "^21.2.0",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
+    "angular-cli-ghpages": "^3.1.0",
     "jsdom": "^28.0.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.5.6": true,
+    "esbuild@0.27.3": true,
+    "lmdb@3.5.1": true,
+    "msgpackr-extract@3.0.4": true
   }
 }
