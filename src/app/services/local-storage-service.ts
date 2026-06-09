@@ -7,7 +7,7 @@ export const LOCAL_STORAGE = new InjectionToken<Storage>('WindowLocalStorage', {
     const platformId = inject(PLATFORM_ID);
 
     if (isPlatformBrowser(platformId)) {
-      return window.localStorage;
+      return localStorage;
     }
 
     return {
@@ -41,11 +41,11 @@ export class LocalStorageService {
     catch { return value as unknown as T }
   }
 
-  removeItem(key: string): void{
+  removeItem(key: string): void {
     this.storage.removeItem(key);
   }
 
-  clear():void{
+  clear(): void {
     this.storage.clear();
   }
 

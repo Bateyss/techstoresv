@@ -28,7 +28,7 @@ export class Utils {
     static async generateSHA256(txt: string): Promise<string> {
         var encoderr: TextEncoder = new TextEncoder();
         const txtBuffer = encoderr.encode(txt);
-        const hashBuffer = await window.crypto.subtle.digest('SHA-256', txtBuffer);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', txtBuffer);
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
