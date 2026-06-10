@@ -195,11 +195,12 @@ export class DataService {
     this.localStorageService.setItem(DataApp.LOTES_INVENTARIO_ID, loteList);
   }
 
-  pushPedido(datos: Pedido) {
+  pushPedido(datos: Pedido): Pedido {
     var pedidoList: Array<Pedido> = this.getPedidos();
     datos.id = pedidoList[pedidoList.length - 1].id + 1;
     pedidoList.push(datos);
     this.localStorageService.setItem(DataApp.PEDIDOS_ID, pedidoList);
+    return datos;
   }
 
   pushDetallePedido(datos: DetallePedido) {
