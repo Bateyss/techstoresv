@@ -1,0 +1,158 @@
+<mat-dialog-content>
+    <mat-stepper orientation="vertical" linear="true" #stepper>
+        <mat-step [stepControl]="datosClienteForm">
+            <form [formGroup]="datosClienteForm">
+                <ng-template matStepLabel>Datos Cliente</ng-template>
+                @for (formfield of formConfigsCliente(); track formfield) {
+                <mat-form-field>
+                    <mat-label>{{formfield.label}}</mat-label>
+                    @switch (formfield.controlType) {
+                    @case ('textarea') {
+                    <textarea matInput [formControlName]="formfield.name" [errorStateMatcher]="matcher"></textarea>
+                    }
+                    @case ('select') {
+                    <mat-select [compareWith]="compareIds" required [formControlName]="formfield.name"
+                        [errorStateMatcher]="matcher">
+                        @for (opcion of formfield.options; track opcion) {
+                        <mat-option [value]="opcion.value">{{opcion.name}}</mat-option>
+                        }
+                    </mat-select>
+                    }
+                    @default {
+                    <input matInput [type]="formfield.type" [formControlName]="formfield.name"
+                        [errorStateMatcher]="matcher" required />
+                    }
+                    }
+
+                    @if (getFormControlCliente(formfield.name)?.errors) {
+                    <mat-hint>{{formfield.label}}</mat-hint>
+                    }
+
+                    @if (getFormControlCliente(formfield.name)?.errors && formfield.controlType === 'select') {
+                    <mat-error>Seleccione
+                        {{formfield.label}}</mat-error>
+                    }
+
+                    @if (getFormControlCliente(formfield.name)?.errors && formfield.controlType != 'select') {
+                    <mat-error>Ingrese
+                        {{formfield.label}}</mat-error>
+                    }
+                </mat-form-field>
+                }
+
+                <div>
+                    <button matButton matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="tipoPagoForm">
+            <form [formGroup]="tipoPagoForm">
+                <ng-template matStepLabel>Tipo Pago</ng-template>
+
+                @for (formfield of formConfigsTipoPago(); track formfield) {
+                <mat-form-field>
+                    <mat-label>{{formfield.label}}</mat-label>
+                    @switch (formfield.controlType) {
+                    @case ('textarea') {
+                    <textarea matInput [formControlName]="formfield.name" [errorStateMatcher]="matcher"></textarea>
+                    }
+                    @case ('select') {
+                    <mat-select [compareWith]="compareIds" required [formControlName]="formfield.name"
+                        [errorStateMatcher]="matcher" (selectionChange)="onSelectionTipoPagoChange($event)">
+                        @for (opcion of formfield.options; track opcion) {
+                        <mat-option [value]="opcion.value">{{opcion.name}}</mat-option>
+                        }
+                    </mat-select>
+                    }
+                    @default {
+                    <input matInput [type]="formfield.type" [formControlName]="formfield.name"
+                        [errorStateMatcher]="matcher" required />
+                    }
+                    }
+
+                    @if (getFormControlTipoPago(formfield.name)?.errors) {
+                    <mat-hint>{{formfield.label}}</mat-hint>
+                    }
+
+                    @if (getFormControlTipoPago(formfield.name)?.errors && formfield.controlType === 'select') {
+                    <mat-error>Seleccione
+                        {{formfield.label}}</mat-error>
+                    }
+
+                    @if (getFormControlTipoPago(formfield.name)?.errors && formfield.controlType != 'select') {
+                    <mat-error>Ingrese
+                        {{formfield.label}}</mat-error>
+                    }
+                </mat-form-field>
+                }
+
+                <div>
+                    <button matButton matStepperPrevious>Back</button>
+                    <button matButton matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        @if (esPagoTarjeta()) {
+        <mat-step [stepControl]="datosTarjetaForm">
+            <form [formGroup]="datosTarjetaForm">
+                <ng-template matStepLabel>Tipo Pago</ng-template>
+
+                @for (formfield of formConfigsTarjeta(); track formfield) {
+                <mat-form-field>
+                    <mat-label>{{formfield.label}}</mat-label>
+                    @switch (formfield.controlType) {
+                    @case ('textarea') {
+                    <textarea matInput [formControlName]="formfield.name" [errorStateMatcher]="matcher"></textarea>
+                    }
+                    @case ('select') {
+                    <mat-select [compareWith]="compareIds" required [formControlName]="formfield.name"
+                        [errorStateMatcher]="matcher">
+                        @for (opcion of formfield.options; track opcion) {
+                        <mat-option [value]="opcion.value">{{opcion.name}}</mat-option>
+                        }
+                    </mat-select>
+                    }
+                    @default {
+                    <input matInput [type]="formfield.type" [formControlName]="formfield.name"
+                        [errorStateMatcher]="matcher" required />
+                    }
+                    }
+
+                    @if (getFormControlTipoPago(formfield.name)?.errors) {
+                    <mat-hint>{{formfield.label}}</mat-hint>
+                    }
+
+                    @if (getFormControlTipoPago(formfield.name)?.errors && formfield.controlType === 'select') {
+                    <mat-error>Seleccione
+                        {{formfield.label}}</mat-error>
+                    }
+
+                    @if (getFormControlTipoPago(formfield.name)?.errors && formfield.controlType != 'select') {
+                    <mat-error>Ingrese
+                        {{formfield.label}}</mat-error>
+                    }
+                </mat-form-field>
+                }
+
+                <div>
+                    <button matButton matStepperPrevious>Back</button>
+                    <button matButton matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        }
+
+        <mat-step>
+            <ng-template matStepLabel>Done</ng-template>
+            <p>Pagar Pedido</p>
+            <div>
+                <button matButton (click)="pagarPedido()">Pagar</button>
+            </div>
+            <div>
+                <button matButton matStepperPrevious>Back</button>
+                <button matButton (click)="stepper.reset()">Reset</button>
+            </div>
+        </mat-step>
+    </mat-stepper>
+
+</mat-dialog-content>

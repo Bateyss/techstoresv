@@ -1,0 +1,24 @@
+/* Fade In */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    /* Final state applied immediately */
+    div {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Fade Out */
+    .fade-out {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .fade-out.leave-active {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
