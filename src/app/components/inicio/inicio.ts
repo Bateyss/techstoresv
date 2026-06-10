@@ -51,6 +51,7 @@ export class Inicio implements OnInit {
     nuevosMenus.push({ id: 1, ruta: '/menu/login', nombre: 'Iniciar Sesion' });
     nuevosMenus.push({ id: 2, ruta: '/menu/productos', nombre: 'Productos' });
     nuevosMenus.push({ id: 3, ruta: '/menu/carrito', nombre: 'Carrito' });
+    nuevosMenus.push({ id: 3, ruta: '/menu/ventas', nombre: 'Ventas' });
     this.menusList.update(valores => [...nuevosMenus]);
   }
 

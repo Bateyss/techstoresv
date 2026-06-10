@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
-import { Inicio } from './components/inicio/inicio';
-import { Productos } from './components/productos/productos';
-import { Login } from './components/login/login';
 import { Carrito } from './components/carrito/carrito';
+import { Inicio } from './components/inicio/inicio';
+import { Login } from './components/login/login';
+import { Productos } from './components/productos/productos';
+import { Ventas } from './components/ventas/ventas';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/menu', pathMatch: 'full' },
@@ -12,6 +13,7 @@ export const routes: Routes = [
             { path: 'login', component: Login, },
             { path: 'productos', component: Productos, },
             { path: 'carrito', component: Carrito, },
+            { path: 'ventas', component: Ventas, },
         ]
     }
 ];
