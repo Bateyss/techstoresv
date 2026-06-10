@@ -17,6 +17,7 @@ import { UsuarioService } from '../../services/usuario-service';
 import { DataApp } from '../../util/data-app';
 import { FormErrorStateMatcher } from '../../util/form-error-state-matcher';
 import { Utils } from '../../util/utils';
+import { Producto } from '../../models/producto';
 
 @Component({
   selector: 'app-carrito',
@@ -65,6 +66,20 @@ export class Carrito implements OnInit {
     };
 
     const dialogRef = this.dialog.open(PagarPedidoDialog, dialogConfig);
+    dialogRef.afterClosed().subscribe(
+      result => {
+        this.cargarListas();
+      });
+  }
+
+  agregarDetallePedido() {
+
+    const dialogConfig = Utils.getMatDialogConf()
+    dialogConfig.data = {
+      pedido: this.pedido()
+    };
+
+    const dialogRef = this.dialog.open(AgregarDetallePedidoDialog, dialogConfig);
     dialogRef.afterClosed().subscribe(
       result => {
         this.cargarListas();
@@ -178,6 +193,96 @@ export class PagarPedidoDialog implements OnInit {
 
   validarDatos(): boolean {
     var valido = this.formService.validateFormControls(this.pagoCarritoForm);
+    return valido;
+  }
+
+}
+
+
+@Component({
+  selector: 'dialog-agregar',
+  imports: [MaterialFormDialogModule, MatDividerModule],
+  templateUrl: './agregar.carrito.html',
+  styleUrl: './carrito.css'
+})
+export class AgregarDetallePedidoDialog implements OnInit {
+
+  public innerWidths = '0';
+  private document = inject(DOCUMENT);
+
+  private _snackBar = inject(MatSnackBar);
+  readonly dialogRef = inject(MatDialogRef<AgregarDetallePedidoDialog>);
+  public formConfigs = signal<FieldConfig[]>([]);
+  public matcher = new FormErrorStateMatcher();
+
+  private formService = inject(FormService);
+  private carritoService = inject(CarritoService);
+  private dataService = inject(DataService);
+  private usuarioService = inject(UsuarioService);
+
+  public agregarCarritoForm!: UntypedFormGroup;
+
+  public productoList = signal<Array<Producto>>([]);
+  public pedido = DataApp.pedidoVacio();
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {
+    pedido: Pedido
+  }) {
+    this.innerWidths = (this.document.body.clientWidth * 0.9) + 'px';
+  }
+
+  ngOnInit() {
+    this.cargarDatos();
+    this.cargarListas();
+
+    var newConfig = this.formService.newAgregarDetallePedidoControls(this.productoList());
+    this.agregarCarritoForm = this.formService.getFormGroup(newConfig);
+
+    this.formConfigs.update(actual => [...newConfig]);
+  }
+
+
+  getFormControl(control: string) {
+    return this.agregarCarritoForm.get(control);
+  }
+
+  compareIds(id1: any, id2: any): boolean {
+    return id1.id == id2.id;
+  }
+
+  cargarDatos() {
+    var usuarioLoggeado = this.usuarioService.getUsuarioLoggeado()
+    this.pedido = this.carritoService.getUltimoPedidoUsuario(usuarioLoggeado)
+  }
+
+  cargarListas() {
+    this.productoList.update(valores => [...this.carritoService.getProductosStocWeb()]);
+  }
+
+  agregarDetallePedido() {
+    if (this.validarDatos()) {
+      let datosForm = this.agregarCarritoForm.value;
+
+      let detaLLePedido = DataApp.detallePedidoVacio();
+      detaLLePedido.pedido = this.pedido;
+      detaLLePedido.cantidad = datosForm.cantidad;
+      detaLLePedido.producto = datosForm.producto;
+      detaLLePedido.precio_unitario_venta = detaLLePedido.producto.precio_venta;
+      this.dataService.pushDetallePedido(detaLLePedido);
+      Utils.openSnackBar('Producto Agregado', 'aceptar', this._snackBar);
+      this.dialogRef.close();
+    }
+    else
+      Utils.openSnackBar('Datos incorrectos', 'ok', this._snackBar);
+  }
+
+  validarDatos(): boolean {
+    var valido = this.formService.validateFormControls(this.agregarCarritoForm);
+    var cantidadNum = parseFloat(this.getFormControl('cantidad')?.value);
+    if (!cantidadNum || isNaN(cantidadNum)) {
+      valido = false
+      this.getFormControl('cantidad')?.setErrors({ key: "1" });
+    };
     return valido;
   }
 
