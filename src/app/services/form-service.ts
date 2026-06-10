@@ -29,7 +29,7 @@ export class FormService {
     if (fields && fields.length > 0) {
       fields.forEach(field => formGroupConfigs[field.name] = [field.value || '', field.validators || []]);
     }
-    
+
     return this.formBuilder.group(formGroupConfigs);
   }
 
@@ -44,7 +44,7 @@ export class FormService {
       { id: 1, name: 'sku', label: 'Codigo', type: 'text', controlType: 'input', validators: [Validators.required, Validators.minLength(3)] },
       { id: 2, name: 'nombre', label: 'Nombre Producto', type: 'text', controlType: 'input', validators: [Validators.required, Validators.minLength(5)] },
       { id: 3, name: 'descripcion', label: 'Descripcion', type: 'text', controlType: 'input', validators: [Validators.required, Validators.minLength(5)] },
-      { id: 4, name: 'precio_venta', value: 0, label: 'Precio de Venta', type: 'text', controlType: 'input', validators: [Validators.required, Validators.min(0.01)] },
+      { id: 4, name: 'precio_venta', value: 0, label: 'Precio de Venta', type: 'number', controlType: 'input', validators: [Validators.required, Validators.min(0.01)] },
       { id: 5, name: 'estado', label: 'Estado', type: 'text', controlType: 'select', validators: [Validators.required], options: selectionEstados }
     ];
   }
@@ -68,11 +68,65 @@ export class FormService {
     var selectionPasarela: Array<SelectOption> = [];
     if (pasarelaList && pasarelaList.length > 0) {
       pasarelaList.forEach(
-        modelo => selectionPasarela.push({ id: modelo.id, name: modelo.nombre + 'comision: $' + modelo.comision, value: modelo })
+        modelo => selectionPasarela.push({ id: modelo.id, name: modelo.nombre + ', comision: $' + modelo.comision, value: modelo })
       );
     }
     return [
       { id: 1, name: 'pasarela', label: 'Pasarela de pago', type: 'text', controlType: 'select', validators: [Validators.required], options: selectionPasarela },
+    ];
+  }
+
+  newVentaLocalFormControls(pasarelaList: Array<Pasarela>): FieldConfig[] {
+    var selectionPasarela: Array<SelectOption> = [];
+    if (pasarelaList && pasarelaList.length > 0) {
+      pasarelaList.forEach(
+        modelo => selectionPasarela.push({ id: modelo.id, name: modelo.nombre + ', comision: $' + modelo.comision, value: modelo })
+      );
+    }
+    return [
+      { id: 1, name: 'pasarela', label: 'Pasarela de pago', type: 'text', controlType: 'select', validators: [Validators.required], options: selectionPasarela },
+    ];
+  }
+
+  newVentaLocalTipoPagoFormControls(): FieldConfig[] {
+    var selectionTipoPago: Array<SelectOption> = [];
+    selectionTipoPago.push({ id: 1, name: 'Efectivo', value: 1 });
+    selectionTipoPago.push({ id: 2, name: 'Tarjeta', value: 2 });
+    return [
+      { id: 1, name: 'tipoPago', label: 'Forma de Pago', type: 'text', controlType: 'select', validators: [Validators.required], options: selectionTipoPago },
+    ];
+  }
+
+  newVentaLocalClienteFormControls(): FieldConfig[] {
+    return [
+      { id: 1, name: 'nombre', label: 'Nombre', type: 'text', controlType: 'input', validators: [Validators.required, Validators.minLength(3)] },
+      { id: 2, name: 'documento', label: 'Numero Documento', type: 'text', controlType: 'input', validators: [Validators.required, Validators.minLength(3)] },
+    ];
+  }
+
+  newAgregarDetallePedidoControls(productoList: Array<Producto>): FieldConfig[] {
+    var selectionPasarela: Array<SelectOption> = [];
+    if (productoList && productoList.length > 0) {
+      productoList.forEach(
+        modelo => selectionPasarela.push({ id: modelo.id, name: modelo.nombre + ', Precio: $' + modelo.precio_venta, value: modelo })
+      );
+    }
+    return [
+      { id: 1, name: 'producto', label: 'Producto', type: 'text', controlType: 'select', validators: [Validators.required], options: selectionPasarela },
+      { id: 2, name: 'cantidad', value: 0, label: 'Cantidad', type: 'number', controlType: 'input', validators: [Validators.required, Validators.min(1)] },
+    ];
+  }
+
+  newAgregarDetallePedidoVentaControls(productoList: Array<Producto>): FieldConfig[] {
+    var selectionPasarela: Array<SelectOption> = [];
+    if (productoList && productoList.length > 0) {
+      productoList.forEach(
+        modelo => selectionPasarela.push({ id: modelo.id, name: modelo.nombre + ', Disponible: $' + modelo.stock_local, value: modelo })
+      );
+    }
+    return [
+      { id: 1, name: 'producto', label: 'Producto', type: 'text', controlType: 'select', validators: [Validators.required], options: selectionPasarela },
+      { id: 2, name: 'cantidad', value: 0, label: 'Cantidad', type: 'number', controlType: 'input', validators: [Validators.required, Validators.min(1)] },
     ];
   }
 
