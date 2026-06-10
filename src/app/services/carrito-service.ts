@@ -1,12 +1,13 @@
 import { inject, Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DetallePedido } from '../models/detalle-pedido';
+import { LoteInventario } from '../models/lote-inventario';
+import { MovimientoInventario } from '../models/movimiento-inventario';
 import { Pedido } from '../models/pedido';
+import { Producto } from '../models/producto';
 import { Usuario } from '../models/usuario';
 import { DataApp } from '../util/data-app';
 import { DataService } from './data.service';
-import { MovimientoInventario } from '../models/movimiento-inventario';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { LoteInventario } from '../models/lote-inventario';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +35,13 @@ export class CarritoService {
     var pedidos = this.getPedidosUsuario(usuario)
     if (pedidos.length > 0) {
       pedido = pedidos[pedidos.length - 1];
+    } else {
+      let estados = this.dataService.getEstadosPedido();
+
+      pedido.usuario = usuario;
+      pedido.total = 0;
+      pedido.estado = estados[estados.findIndex(a => a.id == 1)];
+      pedido = this.dataService.pushPedido(pedido);
     }
     return pedido;
   }
@@ -73,7 +81,7 @@ export class CarritoService {
 
   pedidoPagado(pedido: Pedido) {
     var estados = this.dataService.getEstadosPedido();
-    pedido.estado = estados[2];
+    pedido.estado = estados[estados.findIndex(a => a.id == 3)];
     this.dataService.editarPedido(pedido);
 
     var detalles = this.getDetallesPedido(pedido);
@@ -81,13 +89,27 @@ export class CarritoService {
       if (det.pedido.id = pedido.id) {
         det.pedido = pedido;
         this.dataService.editarDetallePedido(det);
-
-        this.registrarPagoInventario(det);
+        this.registrarPagoInventario(det, 1);
       }
     }
   }
 
-  registrarPagoInventario(detallePedido: DetallePedido) {
+  ventaPagada(pedido: Pedido) {
+    var estados = this.dataService.getEstadosPedido();
+    pedido.estado = estados[estados.findIndex(a => a.id == 3)];
+    this.dataService.editarPedido(pedido);
+
+    var detalles = this.getDetallesPedido(pedido);
+    for (const det of detalles) {
+      if (det.pedido.id = pedido.id) {
+        det.pedido = pedido;
+        this.dataService.editarDetallePedido(det);
+        this.registrarPagoInventario(det, 2);
+      }
+    }
+  }
+
+  registrarPagoInventario(detallePedido: DetallePedido, tipo_pago: number) {
     let movimiento: MovimientoInventario = DataApp.movimientoInventarioVacio();
 
     movimiento.cantidad = detallePedido.cantidad;
@@ -131,12 +153,18 @@ export class CarritoService {
     }
 
     // actualizar productos
-    if (detallePedido.producto.stock_web && detallePedido.producto.stock_web > 0) {
-      detallePedido.producto.stock_web -= detallePedido.cantidad;
-
-      this.dataService.editarProducto(detallePedido.producto);
+    if (tipo_pago == 1) {
+      if (detallePedido.producto.stock_web && detallePedido.producto.stock_web > 0) {
+        detallePedido.producto.stock_web -= detallePedido.cantidad;
+        this.dataService.editarProducto(detallePedido.producto);
+      }
     }
-
+    if (tipo_pago == 2) {
+      if (detallePedido.producto.stock_local && detallePedido.producto.stock_local > 0) {
+        detallePedido.producto.stock_local -= detallePedido.cantidad;
+        this.dataService.editarProducto(detallePedido.producto);
+      }
+    }
   }
 
   validarExistenciaInventario(detallePedido: DetallePedido): boolean {
@@ -157,6 +185,34 @@ export class CarritoService {
       }
     }
     return (lotesDos && lotesDos.length > 0 && cantidadEstimada == 0);
+  }
+
+  getProductosStocWeb(): Array<Producto> {
+    let productoList = this.dataService.getProductos();
+    let productoListFilter: Array<Producto> = [];
+
+    if (productoList.length > 0) {
+      for (const prod of productoList) {
+        if (prod.estado.id == 1 && prod.stock_web && prod.stock_web > 0) {
+          productoListFilter.push(prod);
+        }
+      }
+    }
+    return productoListFilter;
+  }
+
+  getProductosStocLocal(): Array<Producto> {
+    let productoList = this.dataService.getProductos();
+    let productoListFilter: Array<Producto> = [];
+
+    if (productoList.length > 0) {
+      for (const prod of productoList) {
+        if (prod.estado.id == 1 && prod.stock_local && prod.stock_local > 0) {
+          productoListFilter.push(prod);
+        }
+      }
+    }
+    return productoListFilter;
   }
 
 }
