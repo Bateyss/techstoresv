@@ -125,4 +125,13 @@ export class MaterialFormModule { }
 })
 export class MaterialToolbarModule { }
 
+@NgModule({
+  declarations: [],
+  imports: [],
+  exports: [
+    MatExpansionModule, MatButtonModule, MatIconModule, MatTableModule, CommonModule, MatDialogModule
+  ]
+})
+export class MaterialTableDialogModule { }
+
 
