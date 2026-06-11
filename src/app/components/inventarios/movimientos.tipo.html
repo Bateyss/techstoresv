@@ -1,5 +1,6 @@
 <mat-dialog-content>
     <div>
+        <p>Movimientos de {{tipoMovimiento().descripcion}}</p>
         <table mat-table [dataSource]="movimientosList()" class="mat-elevation-z8">
 
             <ng-container matColumnDef="sku">

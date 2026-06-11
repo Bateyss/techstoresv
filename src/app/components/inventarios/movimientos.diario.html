@@ -1,5 +1,6 @@
 <mat-dialog-content>
     <div>
+        <p>Movimientos de Libro Diario</p>
         <table mat-table [dataSource]="movimientosList()" class="mat-elevation-z8">
 
             <ng-container matColumnDef="sku">
@@ -33,10 +34,10 @@
                 </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="['sku', 'producto','fecha', 'lote', 'tipo_movimiento', 'cantidad']">
+            <tr mat-header-row *matHeaderRowDef="['fecha','sku', 'producto', 'lote', 'tipo_movimiento', 'cantidad']">
             </tr>
             <tr mat-row
-                *matRowDef="let row; columns: ['sku', 'producto','fecha', 'lote', 'tipo_movimiento', 'cantidad'];">
+                *matRowDef="let row; columns: ['fecha','sku', 'producto', 'lote', 'tipo_movimiento', 'cantidad'];">
             </tr>
         </table>
     </div>

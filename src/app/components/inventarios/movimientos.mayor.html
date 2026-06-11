@@ -1,6 +1,11 @@
 <mat-dialog-content>
     <div>
-        <table mat-table [dataSource]="movimientosList()" class="mat-elevation-z8">
+        <p>Movimientos de Libro Mayor</p>
+    </div>
+    @for(opcion of tipoMovimientoList(); track opcion){
+    <div>
+        <p>{{opcion.descripcion}}</p>
+        <table mat-table [dataSource]="movimientosPorTipo(opcion)" class="mat-elevation-z8">
 
             <ng-container matColumnDef="sku">
                 <th mat-header-cell *matHeaderCellDef [style.textAlign]="'center'">Codigo</th>
@@ -33,13 +38,14 @@
                 </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="['sku', 'producto','fecha', 'lote', 'tipo_movimiento', 'cantidad']">
+            <tr mat-header-row *matHeaderRowDef="['fecha','sku', 'producto', 'lote', 'tipo_movimiento', 'cantidad']">
             </tr>
             <tr mat-row
-                *matRowDef="let row; columns: ['sku', 'producto','fecha', 'lote', 'tipo_movimiento', 'cantidad'];">
+                *matRowDef="let row; columns: ['fecha','sku', 'producto', 'lote', 'tipo_movimiento', 'cantidad'];">
             </tr>
         </table>
     </div>
+    }
     <div>
         <button mat-stroked-button color="primary" (click)="cerrarDetalles()">Cerrar</button>
     </div>
