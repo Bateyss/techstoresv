@@ -1,0 +1,53 @@
+<mat-accordion multi>
+    <mat-expansion-panel hideToggle expanded="true" [style.overflow]="'auto'">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Compra de productos
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <table mat-table [dataSource]="detallePedidoList()" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="producto">
+                <th mat-header-cell *matHeaderCellDef [style.textAlign]="'center'">Producto</th>
+                <td mat-cell *matCellDef="let element" [style.textAlign]="'center'"> {{element.producto.sku}}
+                    {{element.producto.nombre}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="cantidad">
+                <th mat-header-cell *matHeaderCellDef [style.textAlign]="'center'">Cantidad</th>
+                <td mat-cell *matCellDef="let element" [style.textAlign]="'center'"> {{element.cantidad}}</td>
+            </ng-container>
+            <ng-container matColumnDef="precio">
+                <th mat-header-cell *matHeaderCellDef [style.textAlign]="'center'">Precio</th>
+                <td mat-cell *matCellDef="let element" [style.textAlign]="'center'"> {{element.precio_unitario_venta |
+                    currency}}</td>
+            </ng-container>
+
+            <!-- Opciones Column -->
+            <ng-container matColumnDef="opciones" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef aria-label="row actions">OPCIONES</th>
+                <td mat-cell *matCellDef="let element">
+                    <button matIconButton (click)="aumentarDetalleCompra(element)">
+                        <mat-icon>arrow_circle_up</mat-icon>
+                    </button>
+                    <button matIconButton (click)="disminuirDetalleCompra(element)">
+                        <mat-icon>arrow_circle_down</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="['producto','cantidad', 'precio','opciones']">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: ['producto','cantidad', 'precio','opciones'];"></tr>
+        </table>
+    </mat-expansion-panel>
+    <mat-expansion-panel hideToggle expanded="true">
+        <mat-expansion-panel-header>
+            <mat-panel-description>
+                <button mat-stroked-button color="primary" (click)="registrarCompra()">Pagar Carrito</button>
+                <button mat-stroked-button color="primary" (click)="agregarDetalleCompra()">Agregar Producto</button>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+    </mat-expansion-panel>
+</mat-accordion>

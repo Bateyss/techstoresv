@@ -1,0 +1,62 @@
+3<mat-dialog-content>
+    <div>
+        <mat-card>
+            <mat-card-title>
+                <label class="h4">Agregar Producto</label>
+            </mat-card-title>
+            <mat-card-content>
+                <form id="productoForm" [formGroup]="agregarCompraForm" (ngSubmit)="agregarDetalleCompra()">
+                    <mat-grid-list cols="1">
+
+                        @for (formfield of formConfigs(); track formfield) {
+                        <mat-card-title>
+                            <mat-form-field>
+                                <mat-label>{{formfield.label}}</mat-label>
+                                @switch (formfield.controlType) {
+                                @case ('textarea') {
+                                <textarea matInput [formControlName]="formfield.name"
+                                    [errorStateMatcher]="matcher"></textarea>
+                                }
+                                @case ('select') {
+                                <mat-select [compareWith]="compareIds" required [formControlName]="formfield.name"
+                                    [errorStateMatcher]="matcher">
+                                    @for (opcion of formfield.options; track opcion) {
+                                    <mat-option [value]="opcion.value">{{opcion.name}}</mat-option>
+                                    }
+                                </mat-select>
+                                }
+                                @default {
+                                <input matInput [type]="formfield.type" [formControlName]="formfield.name"
+                                    [errorStateMatcher]="matcher" required />
+                                }
+                                }
+
+                                @if (getFormControl(formfield.name)?.errors) {
+                                <mat-hint>{{formfield.label}}</mat-hint>
+                                }
+
+                                @if (getFormControl(formfield.name)?.errors && formfield.controlType === 'select') {
+                                <mat-error>Seleccione
+                                    {{formfield.label}}</mat-error>
+                                }
+
+                                @if (getFormControl(formfield.name)?.errors && formfield.controlType != 'select') {
+                                <mat-error>Ingrese
+                                    {{formfield.label}}</mat-error>
+                                }
+
+
+                            </mat-form-field>
+                        </mat-card-title>
+                        }
+
+                        <mat-card-title>
+                            <button mat-stroked-button color="primary" type="submit">Agregar</button>
+                        </mat-card-title>
+
+                    </mat-grid-list>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</mat-dialog-content>
