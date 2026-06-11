@@ -149,15 +149,15 @@ export class AgregarDetalleCompraDialog implements OnInit {
     if (this.validarDatos()) {
       let datosForm = this.agregarCompraForm.value;
 
-      if ((datosForm.cantidad - (datosForm.cantidad_local + datosForm.cantidad_web)) > 0) {
+      if ((parseInt(datosForm.cantidad) - (parseInt(datosForm.cantidad_local) + parseInt(datosForm.cantidad_web))) > 0) {
         Utils.openSnackBar('Cantidades no cuadran', 'ok', this._snackBar);
         return;
       }
 
       let detaLLeCompra = DataApp.detalleCompraVacio();
-      detaLLeCompra.cantidad = datosForm.cantidad;
-      detaLLeCompra.cantidad_local = datosForm.cantidad_local;
-      detaLLeCompra.cantidad_web = datosForm.cantidad_web;
+      detaLLeCompra.cantidad = parseInt(datosForm.cantidad);
+      detaLLeCompra.cantidad_local = parseInt(datosForm.cantidad_local);
+      detaLLeCompra.cantidad_web = parseInt(datosForm.cantidad_web);
       detaLLeCompra.producto = datosForm.producto;
       detaLLeCompra.precio_unitario_venta = detaLLeCompra.producto.precio_venta;
       this.compraService.pushDetalleCompra(detaLLeCompra);
