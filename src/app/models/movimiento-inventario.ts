@@ -9,6 +9,6 @@ export interface MovimientoInventario {
     lote: LoteInventario;
     tipo_movimiento: TipoMovimiento;
     cantidad: number;
-    pedido: Pedido | null;
+    pedido?: Pedido;
     fecha: Date;
 }

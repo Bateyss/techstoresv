@@ -23,6 +23,7 @@ export class DataApp {
     public static readonly TIPO_MOVIMIENTO_ID: string = 'tipoMovimientoList';
 
     public static readonly PASARELA_ID: string = 'pasarelaList';
+    public static readonly DETALLE_PEDIDOS_COMPRA_ID: string = 'detallePedidoCompraList';
 
     public static readonly LOGGED_USUARIO: string = 'usuario';
     public static readonly LOGGED: string = 'logged';
@@ -397,7 +398,6 @@ export class DataApp {
             lote: lotes[0],
             tipo_movimiento: tiposMovimiento[0],
             cantidad: 100,
-            pedido: null,
             fecha: new Date()
         });
         movimientoInventarioList.push({
@@ -406,7 +406,6 @@ export class DataApp {
             lote: lotes[1],
             tipo_movimiento: tiposMovimiento[0],
             cantidad: 50,
-            pedido: null,
             fecha: new Date()
         });
         movimientoInventarioList.push({
@@ -415,7 +414,6 @@ export class DataApp {
             lote: lotes[2],
             tipo_movimiento: tiposMovimiento[0],
             cantidad: 75,
-            pedido: null,
             fecha: new Date()
         });
         movimientoInventarioList.push({
@@ -424,7 +422,6 @@ export class DataApp {
             lote: lotes[3],
             tipo_movimiento: tiposMovimiento[0],
             cantidad: 150,
-            pedido: null,
             fecha: new Date()
         });
         return movimientoInventarioList;
@@ -451,7 +448,7 @@ export class DataApp {
             descripcion: 'PayPal international',
             comision: 1.50
         });
-        
+
         return pasarelaList;
     }
 
