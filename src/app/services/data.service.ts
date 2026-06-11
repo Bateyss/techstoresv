@@ -193,6 +193,7 @@ export class DataService {
     datos.id = loteList[loteList.length - 1].id + 1;
     loteList.push(datos);
     this.localStorageService.setItem(DataApp.LOTES_INVENTARIO_ID, loteList);
+    return datos;
   }
 
   pushPedido(datos: Pedido): Pedido {
