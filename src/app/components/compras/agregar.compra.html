@@ -27,7 +27,7 @@
                                 }
                                 @default {
                                 <input matInput [type]="formfield.type" [formControlName]="formfield.name"
-                                    [errorStateMatcher]="matcher" required />
+                                    [errorStateMatcher]="matcher" (change)="inputChange($event)" required />
                                 }
                                 }
 

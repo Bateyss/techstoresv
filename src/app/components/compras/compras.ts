@@ -1,5 +1,5 @@
 import { Component, DOCUMENT, Inject, inject, OnInit, signal } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,6 +14,7 @@ import { FormService } from '../../services/form-service';
 import { DataApp } from '../../util/data-app';
 import { FormErrorStateMatcher } from '../../util/form-error-state-matcher';
 import { Utils } from '../../util/utils';
+import { DetalleCompra } from '../../models/detalle-compra';
 
 @Component({
   selector: 'app-compras',
@@ -28,7 +29,7 @@ export class Compras implements OnInit {
 
   private compraService = inject(CompraService);
 
-  public detallePedidoList = signal<Array<DetallePedido>>([]);
+  public detalleCompraList = signal<Array<DetalleCompra>>([]);
 
   constructor() { }
 
@@ -38,7 +39,7 @@ export class Compras implements OnInit {
   }
 
   cargarListas() {
-    this.detallePedidoList.update(valores => [...this.compraService.getDetallePedidosCompra()]);
+    this.detalleCompraList.update(valores => [...this.compraService.getdetalleCompras()]);
   }
 
   registrarCompra() {
@@ -46,21 +47,16 @@ export class Compras implements OnInit {
     this.cargarListas();
   }
 
-  aumentarDetalleCompra(detalle: DetallePedido) {
-    this.detallePedidoList.update(valores => [...this.compraService.aumentarDetalleCompra(detalle)]);
+  aumentarDetalleCompra(detalle: DetalleCompra) {
+    this.detalleCompraList.update(valores => [...this.compraService.aumentarDetalleCompra(detalle)]);
   }
 
-  disminuirDetalleCompra(detalle: DetallePedido) {
-    this.detallePedidoList.update(valores => [...this.compraService.disminuirDetalleCompra(detalle)]);
+  disminuirDetalleCompra(detalle: DetalleCompra) {
+    this.detalleCompraList.update(valores => [...this.compraService.disminuirDetalleCompra(detalle)]);
   }
 
   agregarDetalleCompra() {
-
-    const dialogConfig = Utils.getMatDialogConf()
-    dialogConfig.data = {
-      pedido: DataApp.pedidoVacio()
-    };
-
+    const dialogConfig = Utils.getMatDialogConf();
     const dialogRef = this.dialog.open(AgregarDetalleCompraDialog, dialogConfig);
     dialogRef.afterClosed().subscribe(
       result => {
@@ -94,23 +90,48 @@ export class AgregarDetalleCompraDialog implements OnInit {
   public agregarCompraForm!: UntypedFormGroup;
 
   public productoList = signal<Array<Producto>>([]);
-  public pedido = DataApp.pedidoVacio();
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {
-    pedido: Pedido
-  }) {
+  constructor() {
     this.innerWidths = (this.document.body.clientWidth * 0.9) + 'px';
   }
 
   ngOnInit() {
     this.cargarListas();
 
-    var newConfig = this.formService.newAgregarDetallePedidoControls(this.productoList());
+    var newConfig = this.formService.newAgregarDetalleCompraControls(this.productoList());
     this.agregarCompraForm = this.formService.getFormGroup(newConfig);
 
     this.formConfigs.update(actual => [...newConfig]);
   }
 
+  inputChange(event: any) {
+    let cantidad = this.getFormControl('cantidad');
+    let cantidad_web = this.getFormControl('cantidad_web');
+    let cantidad_local = this.getFormControl('cantidad_local');
+
+    let cantidad_val = cantidad?.value | 0;
+    let cantidad_web_val = cantidad_web?.value | 0;
+    let cantidad_local_val = cantidad_local?.value | 0;
+
+    if (cantidad_val > 0) {
+      let cantidad_web_min = 0;
+      let cantidad_web_max = cantidad_val;
+      let cantidad_local_min = 0;
+      let cantidad_local_max = cantidad_val;
+      if (cantidad_web_val > 0) {
+        cantidad_local_max = cantidad_val - cantidad_web_val;
+      }
+      if (cantidad_local_val > 0) {
+        cantidad_web_max = cantidad_val - cantidad_local_val;
+      }
+      if ((cantidad_val - (cantidad_web_val + cantidad_local_val)) > 0) {
+        cantidad_web_min = cantidad_val - (cantidad_web_val + cantidad_local_val);
+        cantidad_local_min = cantidad_web_min;
+      }
+      cantidad_web?.setValidators([Validators.required, Validators.min(cantidad_web_min), Validators.max(cantidad_web_max)]);
+      cantidad_local?.setValidators([Validators.required, Validators.min(cantidad_local_min), Validators.max(cantidad_local_max)]);
+    }
+  }
 
   getFormControl(control: string) {
     return this.agregarCompraForm.get(control);
@@ -128,12 +149,18 @@ export class AgregarDetalleCompraDialog implements OnInit {
     if (this.validarDatos()) {
       let datosForm = this.agregarCompraForm.value;
 
-      let detaLLePedido = DataApp.detallePedidoVacio();
-      detaLLePedido.pedido = this.pedido;
-      detaLLePedido.cantidad = datosForm.cantidad;
-      detaLLePedido.producto = datosForm.producto;
-      detaLLePedido.precio_unitario_venta = detaLLePedido.producto.precio_venta;
-      this.compraService.pushDetalleCompra(detaLLePedido);
+      if ((datosForm.cantidad - (datosForm.cantidad_local + datosForm.cantidad_web)) > 0) {
+        Utils.openSnackBar('Cantidades no cuadran', 'ok', this._snackBar);
+        return;
+      }
+
+      let detaLLeCompra = DataApp.detalleCompraVacio();
+      detaLLeCompra.cantidad = datosForm.cantidad;
+      detaLLeCompra.cantidad_local = datosForm.cantidad_local;
+      detaLLeCompra.cantidad_web = datosForm.cantidad_web;
+      detaLLeCompra.producto = datosForm.producto;
+      detaLLeCompra.precio_unitario_venta = detaLLeCompra.producto.precio_venta;
+      this.compraService.pushDetalleCompra(detaLLeCompra);
       Utils.openSnackBar('Producto Agregado', 'aceptar', this._snackBar);
       this.dialogRef.close();
     }
