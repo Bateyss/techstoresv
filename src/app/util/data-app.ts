@@ -1,3 +1,4 @@
+import { DetalleCompra } from "../models/detalle-compra";
 import { DetallePedido } from "../models/detalle-pedido";
 import { EstadoPedido } from "../models/estado-pedido";
 import { EstadoProducto } from "../models/estado-producto";
@@ -97,6 +98,17 @@ export class DataApp {
             pedido: this.pedidoVacio(),
             producto: this.productoVacio(),
             cantidad: 0,
+            precio_unitario_venta: 0
+        }
+    }
+
+    public static detalleCompraVacio(): DetalleCompra {
+        return {
+            id: 0,
+            producto: this.productoVacio(),
+            cantidad: 0,
+            cantidad_local: 0,
+            cantidad_web: 0,
             precio_unitario_venta: 0
         }
     }
