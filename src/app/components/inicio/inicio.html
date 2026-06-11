@@ -27,6 +27,12 @@
     <mat-divider></mat-divider>
     }
 
+    <button mat-menu-item (click)="limpiarDatos()">
+        <mat-icon>clear</mat-icon>
+        <span>Limpiar Datos</span>
+    </button>
+    <mat-divider></mat-divider>
+
     <mat-slide-toggle [(ngModel)]="isChecked" (change)="onThemeSwitchChange()">Colores:
         {{isChecked()?'Oscuro':'Claro'}}</mat-slide-toggle>
 </mat-menu>

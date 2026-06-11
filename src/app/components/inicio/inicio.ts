@@ -51,7 +51,9 @@ export class Inicio implements OnInit {
     nuevosMenus.push({ id: 1, ruta: '/menu/login', nombre: 'Iniciar Sesion' });
     nuevosMenus.push({ id: 2, ruta: '/menu/productos', nombre: 'Productos' });
     nuevosMenus.push({ id: 3, ruta: '/menu/carrito', nombre: 'Carrito' });
-    nuevosMenus.push({ id: 3, ruta: '/menu/ventas', nombre: 'Ventas' });
+    nuevosMenus.push({ id: 4, ruta: '/menu/ventas', nombre: 'Ventas' });
+    nuevosMenus.push({ id: 5, ruta: '/menu/compras', nombre: 'Compras' });
+    nuevosMenus.push({ id: 6, ruta: '/menu/inventario', nombre: 'Inventario' });
     this.menusList.update(valores => [...nuevosMenus]);
   }
 
@@ -73,6 +75,10 @@ export class Inicio implements OnInit {
     };
     this.localStorage.setItem(DataApp.LOGGED, 'false');
     this._router.navigate(['/menu/login'], navigationExtras);
+  }
+
+  limpiarDatos() {
+    this.localStorage.clear();
   }
 
   validarUsuarioLogeado() {
