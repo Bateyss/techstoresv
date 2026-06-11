@@ -232,7 +232,7 @@ export class PagarVentaDialog implements OnInit {
 
         if (pagar && this.totalPago() > 0 && this.totalPedido() > 0) {
           var pedido = this.detallePedidoList()[0].pedido;
-          this.carritoService.pedidoPagado(pedido);
+          this.carritoService.ventaPagada(pedido);
           Utils.openSnackBar('Pago exitoso', 'aceptar', this._snackBar);
           this.dialogRef.close();
         } else {
