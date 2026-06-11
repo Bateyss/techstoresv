@@ -22,6 +22,10 @@ export class Utils {
         dialogConfig.autoFocus = true;
         dialogConfig.exitAnimationDuration = '1000ms';
         dialogConfig.enterAnimationDuration = '1000ms';
+
+        dialogConfig.width = '90vh';
+        dialogConfig.height = '80vh';
+        dialogConfig.maxWidth = '100vh';
         return dialogConfig;
     }
 
