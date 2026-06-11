@@ -105,28 +105,43 @@ export class FormService {
   }
 
   newAgregarDetallePedidoControls(productoList: Array<Producto>): FieldConfig[] {
-    var selectionPasarela: Array<SelectOption> = [];
+    var selectionProducto: Array<SelectOption> = [];
     if (productoList && productoList.length > 0) {
       productoList.forEach(
-        modelo => selectionPasarela.push({ id: modelo.id, name: modelo.nombre + ', Precio: $' + modelo.precio_venta, value: modelo })
+        modelo => selectionProducto.push({ id: modelo.id, name: modelo.nombre + ', Precio: $' + modelo.precio_venta, value: modelo })
       );
     }
     return [
-      { id: 1, name: 'producto', label: 'Producto', type: 'text', controlType: 'select', validators: [Validators.required], options: selectionPasarela },
+      { id: 1, name: 'producto', label: 'Producto', type: 'text', controlType: 'select', validators: [Validators.required], options: selectionProducto },
       { id: 2, name: 'cantidad', value: 0, label: 'Cantidad', type: 'number', controlType: 'input', validators: [Validators.required, Validators.min(1)] },
     ];
   }
 
   newAgregarDetallePedidoVentaControls(productoList: Array<Producto>): FieldConfig[] {
-    var selectionPasarela: Array<SelectOption> = [];
+    var selectionProducto: Array<SelectOption> = [];
     if (productoList && productoList.length > 0) {
       productoList.forEach(
-        modelo => selectionPasarela.push({ id: modelo.id, name: modelo.nombre + ', Disponible: $' + modelo.stock_local, value: modelo })
+        modelo => selectionProducto.push({ id: modelo.id, name: modelo.nombre + ', Disponible: $' + modelo.stock_local, value: modelo })
       );
     }
     return [
-      { id: 1, name: 'producto', label: 'Producto', type: 'text', controlType: 'select', validators: [Validators.required], options: selectionPasarela },
+      { id: 1, name: 'producto', label: 'Producto', type: 'text', controlType: 'select', validators: [Validators.required], options: selectionProducto },
       { id: 2, name: 'cantidad', value: 0, label: 'Cantidad', type: 'number', controlType: 'input', validators: [Validators.required, Validators.min(1)] },
+    ];
+  }
+
+  newAgregarDetalleCompraControls(productoList: Array<Producto>): FieldConfig[] {
+    var selectionProducto: Array<SelectOption> = [];
+    if (productoList && productoList.length > 0) {
+      productoList.forEach(
+        modelo => selectionProducto.push({ id: modelo.id, name: modelo.nombre, value: modelo })
+      );
+    }
+    return [
+      { id: 1, name: 'producto', label: 'Producto', type: 'text', controlType: 'select', validators: [Validators.required], options: selectionProducto },
+      { id: 2, name: 'cantidad', value: 0, label: 'Cantidad', type: 'number', controlType: 'input', validators: [Validators.required, Validators.min(1)] },
+      { id: 3, name: 'cantidad_web', value: 0, label: 'Cantidad Stock Web', type: 'number', controlType: 'input', validators: [Validators.required, Validators.min(0)] },
+      { id: 4, name: 'cantidad_local', value: 0, label: 'Cantidad Stock local', type: 'number', controlType: 'input', validators: [Validators.required, Validators.min(0)] },
     ];
   }
 
