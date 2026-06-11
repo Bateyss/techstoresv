@@ -1,0 +1,28 @@
+<mat-dialog-content>
+    <div>
+        <p>Catalogo de Cuentas</p>
+        <table mat-table [dataSource]="tipoMovimientoList()" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="cuenta_movimiento">
+                <th mat-header-cell *matHeaderCellDef [style.textAlign]="'center'">Cuenta</th>
+                <td mat-cell *matCellDef="let element" [style.textAlign]="'center'">
+                    {{element.cuenta}}</td>
+            </ng-container>
+            <ng-container matColumnDef="tipo_movimiento">
+                <th mat-header-cell *matHeaderCellDef [style.textAlign]="'center'">Movimiento</th>
+                <td mat-cell *matCellDef="let element" [style.textAlign]="'center'">
+                    {{element.descripcion}}</td>
+            </ng-container>
+
+            <tr mat-header-row
+                *matHeaderRowDef="['cuenta_movimiento', 'tipo_movimiento']">
+            </tr>
+            <tr mat-row
+                *matRowDef="let row; columns: ['cuenta_movimiento', 'tipo_movimiento'];">
+            </tr>
+        </table>
+    </div>
+    <div>
+        <button mat-stroked-button color="primary" (click)="cerrarDetalles()">Cerrar</button>
+    </div>
+</mat-dialog-content>

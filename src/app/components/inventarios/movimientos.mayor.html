@@ -4,7 +4,7 @@
     </div>
     @for(opcion of tipoMovimientoList(); track opcion){
     <div>
-        <p>{{opcion.descripcion}}</p>
+        <p>{{opcion.cuenta}}-{{opcion.descripcion}}</p>
         <table mat-table [dataSource]="movimientosPorTipo(opcion)" class="mat-elevation-z8">
 
             <ng-container matColumnDef="sku">
@@ -27,21 +27,16 @@
                 <th mat-header-cell *matHeaderCellDef [style.textAlign]="'center'">Lote</th>
                 <td mat-cell *matCellDef="let element" [style.textAlign]="'center'"> {{element.lote.id}}</td>
             </ng-container>
-            <ng-container matColumnDef="tipo_movimiento">
-                <th mat-header-cell *matHeaderCellDef [style.textAlign]="'center'">Movimiento</th>
-                <td mat-cell *matCellDef="let element" [style.textAlign]="'center'">
-                    {{element.tipo_movimiento.descripcion}}</td>
-            </ng-container>
             <ng-container matColumnDef="cantidad">
                 <th mat-header-cell *matHeaderCellDef [style.textAlign]="'center'">Cantidad</th>
                 <td mat-cell *matCellDef="let element" [style.textAlign]="'center'"> {{element.cantidad}}
                 </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="['fecha','sku', 'producto', 'lote', 'tipo_movimiento', 'cantidad']">
+            <tr mat-header-row *matHeaderRowDef="['fecha','sku', 'producto', 'lote', 'cantidad']">
             </tr>
             <tr mat-row
-                *matRowDef="let row; columns: ['fecha','sku', 'producto', 'lote', 'tipo_movimiento', 'cantidad'];">
+                *matRowDef="let row; columns: ['fecha','sku', 'producto', 'lote', 'cantidad'];">
             </tr>
         </table>
     </div>

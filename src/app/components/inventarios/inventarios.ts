@@ -74,6 +74,11 @@ export class Inventarios implements OnInit {
     this.dialog.open(MovimientosLibroMayorDialog, dialogConfig);
   }
 
+  verCatalogoCuentas() {
+    const dialogConfig = Utils.getMatDialogConf()
+    this.dialog.open(CatalogoCuentasDialog, dialogConfig);
+  }
+
 }
 
 @Component({
@@ -232,6 +237,41 @@ export class MovimientosLibroMayorDialog implements OnInit {
       }
     }
     return movimientosPorTipo;
+  }
+
+  cerrarDetalles() {
+    this.dialogRef.close();
+  }
+
+}
+
+@Component({
+  selector: 'dialog-detalles-tipo',
+  imports: [MaterialTableDialogModule],
+  templateUrl: './movimientos.cuentas.html',
+  styleUrl: './inventarios.css'
+})
+export class CatalogoCuentasDialog implements OnInit {
+
+  public innerWidths = '0';
+  private document = inject(DOCUMENT);
+
+  readonly dialogRef = inject(MatDialogRef<CatalogoCuentasDialog>);
+
+  private dataService = inject(DataService);
+
+  tipoMovimientoList = signal<Array<TipoMovimiento>>([]);
+
+  constructor() {
+    this.innerWidths = (this.document.body.clientWidth * 0.9) + 'px';
+  }
+
+  ngOnInit() {
+    this.cargarListas();
+  }
+
+  cargarListas() {
+    this.tipoMovimientoList.update(valores => [...this.dataService.getTiposMovimiento()]);
   }
 
   cerrarDetalles() {

@@ -46,7 +46,8 @@ export class DataApp {
     public static tipoMovimientoVacio(): TipoMovimiento {
         return {
             id: 0,
-            descripcion: ''
+            descripcion: '',
+            cuenta: ''
         }
     }
 
@@ -230,23 +231,28 @@ export class DataApp {
         var tipoMovimientoList: Array<TipoMovimiento> = [];
         tipoMovimientoList.push({
             id: 1,
-            descripcion: 'Compra'
+            descripcion: 'Compra',
+            cuenta: '410101'
         });
         tipoMovimientoList.push({
             id: 2,
-            descripcion: 'Venta'
+            descripcion: 'Venta',
+            cuenta: '210801'
         });
         tipoMovimientoList.push({
             id: 3,
-            descripcion: 'Merma'
+            descripcion: 'Merma',
+            cuenta: '420201'
         });
         tipoMovimientoList.push({
             id: 4,
-            descripcion: 'DevolucionCompra'
+            descripcion: 'Devolucion Compra',
+            cuenta: '520403'
         });
         tipoMovimientoList.push({
             id: 5,
-            descripcion: 'DevolucionVenta'
+            descripcion: 'Devolucion Venta',
+            cuenta: '510103'
         });
         return tipoMovimientoList;
     }
