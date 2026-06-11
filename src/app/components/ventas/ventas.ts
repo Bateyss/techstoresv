@@ -67,9 +67,6 @@ export class Ventas implements OnInit {
     dialogConfig.data = {
       detallePedidoList: this.detallePedidoList()
     };
-    dialogConfig.width = '90vh';
-    dialogConfig.height = '90vh';
-    dialogConfig.maxWidth = '100vh';
 
     const dialogRef = this.dialog.open(PagarVentaDialog, dialogConfig);
     dialogRef.afterClosed().subscribe(
