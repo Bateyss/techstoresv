@@ -86,7 +86,7 @@ export class CarritoService {
 
     var detalles = this.getDetallesPedido(pedido);
     for (const det of detalles) {
-      if (det.pedido.id = pedido.id) {
+      if (det.pedido.id == pedido.id) {
         det.pedido = pedido;
         this.dataService.editarDetallePedido(det);
         this.registrarPagoInventario(det, 1);
@@ -101,7 +101,7 @@ export class CarritoService {
 
     var detalles = this.getDetallesPedido(pedido);
     for (const det of detalles) {
-      if (det.pedido.id = pedido.id) {
+      if (det.pedido.id == pedido.id) {
         det.pedido = pedido;
         this.dataService.editarDetallePedido(det);
         this.registrarPagoInventario(det, 2);
