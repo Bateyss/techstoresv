@@ -1,5 +1,5 @@
 import { Component, DOCUMENT, Inject, inject, OnInit, signal } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatDividerModule } from "@angular/material/divider";
 import { MatSelectChange } from '@angular/material/select';
@@ -257,6 +257,16 @@ export class AgregarDetallePedidoDialog implements OnInit {
 
   cargarListas() {
     this.productoList.update(valores => [...this.carritoService.getProductosStocWeb()]);
+  }
+
+  onProductoSelectionChange(event: MatSelectChange) {
+    const selectedValue: Producto = event.value;
+    if (selectedValue && selectedValue.id > 0 && selectedValue.stock_web && selectedValue.stock_web > 0) {
+      this.getFormControl('cantidad')?.setValidators([Validators.required, Validators.min(1), Validators.max(selectedValue.stock_web)]);
+      var configs = this.formConfigs();
+      configs[configs.findIndex(a => a.name == 'cantidad')].max = selectedValue.stock_web;
+      this.formConfigs.update(valores => [...configs]);
+    }
   }
 
   agregarDetallePedido() {

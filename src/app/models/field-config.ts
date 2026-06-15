@@ -9,4 +9,6 @@ export interface FieldConfig {
     controlType: 'input' | 'select' | 'textarea';
     options?: Array<SelectOption>;
     validators?: any[];
+    max?:number;
+    min?:number;
 }

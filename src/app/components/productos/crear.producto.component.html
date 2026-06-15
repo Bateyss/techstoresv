@@ -35,23 +35,28 @@
                                 </mat-select>
                                 }
                                 @default {
-                                <input matInput [type]="formfield.type" [formControlName]="formfield.name"
+                                <input matInput #input [type]="formfield.type" [formControlName]="formfield.name"
+                                    maxlength="{{formfield.max && formfield.max > 0 && formfield.type == 'text' ? formfield.max : 1000}}"
+                                    max="{{formfield.max && formfield.max > 0 && formfield.type == 'number' ? formfield.max : 1000000}}"
                                     [errorStateMatcher]="matcher" required />
                                 }
                                 }
 
                                 @if (getFormControl(formfield.name)?.errors) {
-                                <mat-hint>{{formfield.label}}</mat-hint>
-                                }
-
                                 @if (getFormControl(formfield.name)?.errors && formfield.controlType === 'select') {
-                                <mat-error>Seleccione
-                                    {{formfield.label}}</mat-error>
+                                <mat-hint align="start">Seleccione{{' '+formfield.label}}</mat-hint>
+                                }
+                                @if (getFormControl(formfield.name)?.errors && formfield.controlType != 'select') {
+                                <mat-hint align="start">Ingrese{{' '+formfield.label}}</mat-hint>
+                                }
                                 }
 
-                                @if (getFormControl(formfield.name)?.errors && formfield.controlType != 'select') {
-                                <mat-error>Ingrese
-                                    {{formfield.label}}</mat-error>
+                                @if (formfield.controlType == 'input' && (formfield.max || formfield.min)) {
+                                <mat-hint align="end">{{formfield.min && formfield.min > 0 ? formfield.min :
+                                    '-'}}/{{formfield.type == 'number'?
+                                    getFormControl(formfield.name)?.value:
+                                    getFormControl(formfield.name)?.value.length}}/{{formfield.max && formfield.max > 0
+                                    ? formfield.max : '-'}}</mat-hint>
                                 }
 
 
